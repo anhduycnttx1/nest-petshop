@@ -16,8 +16,8 @@ const LoginPage = () => {
   const { loading, user } = state
   const form = useForm({
     initialValues: {
-      email: '',
-      password: '',
+      email: 'admin@test.com',
+      password: 'abcd1234',
     },
 
     validate: {
@@ -50,7 +50,9 @@ const LoginPage = () => {
                 />
 
                 <Group position="right" mt="md">
-                  <Button type="submit">Login</Button>
+                  <Button type="submit" color="cyan">
+                    Login
+                  </Button>
                 </Group>
                 <Group position="center" mt="md">
                   <Text fz="xs">

@@ -28,7 +28,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-## pocket base
+## Pocket Base
 
 **Install: [Download windown](https://github.com/pocketbase/pocketbase/releases/download/v0.11.2/pocketbase_0.11.2_windows_amd64.zip)**
 

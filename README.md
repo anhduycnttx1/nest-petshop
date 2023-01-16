@@ -38,7 +38,7 @@ Once you've downloaded and extracted the archive, you could start the applicatio
 
 
  `http://127.0.0.1:8090`       - if pb_public directory exists, serves the static content from it (html, css, images, etc.)
- `http://127.0.0.1:8090/_/     - Admin dashboard UI
+ `http://127.0.0.1:8090/_/`    - Admin dashboard UI
  `http://127.0.0.1:8090/api/`  - REST API
 
 The first time, when you access the Admin dashboard UI, it will prompt you to create your first admin account (email and pass).

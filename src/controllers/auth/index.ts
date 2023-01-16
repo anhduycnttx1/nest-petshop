@@ -1,35 +1,60 @@
-import { useAppSelector, useAppDispatch } from '../../redux/hooks'
-import type { RootState } from '../../redux/store'
+import { useAppSelector, useAppDispatch } from '../../libs/redux/hooks'
+import type { RootState } from '../../libs/redux/store'
 import { toast } from 'react-toastify'
-import { setLoading, setError, setUser } from '../../redux/features/auth/authSlice'
-import { auth } from '../../firebase/firebase-config'
 import {
-  User,
-  signOut,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth'
+  setLoading,
+  setError,
+  setAuthModel,
+  setIsValid,
+  setToken,
+} from '../../libs/redux/features/auth/authSlice'
+import { IFAuthModel } from '../../types'
+import { pb } from '../../libs/pocketbase'
 
 export function useAuthController() {
   const dispatch = useAppDispatch()
   const state = useAppSelector((state: RootState) => state.auth)
-  const fetchUser = (user: User | null) => dispatch(setUser(user))
+  const fetchAuth = (user: IFAuthModel) => dispatch(setAuthModel(user))
   const fetchLoading = (payload: boolean) => dispatch(setLoading(payload))
-  async function signUp(email: string, password: string) {
+  const fetchIsValid = (payload: boolean) => dispatch(setIsValid(payload))
+  const fetchToken = (token: string) => dispatch(setToken(token))
+  async function onSignUp(
+    fullname: string,
+    email: string,
+    password: string,
+    passwordConfirm: string
+  ) {
+    const username = email.substring(0, email.lastIndexOf('@'))
+    const data = {
+      username: username,
+      email: email,
+      emailVisibility: true,
+      password: password,
+      passwordConfirm: passwordConfirm,
+      name: fullname,
+    }
     try {
       dispatch(setLoading(true))
-      await createUserWithEmailAndPassword(auth, email, password)
+      await pb.collection('users').create(data)
       dispatch(setLoading(false))
     } catch (err) {
       dispatch(setError('Error Register'))
     }
   }
 
-  function signIn(email: string, password: string) {
+  function onSignIn(email: string, password: string) {
     try {
       dispatch(setLoading(true))
-      signInWithEmailAndPassword(auth, email, password)
-        .then((_) => toast.success('Login success!'))
+      pb.collection('users')
+        .authWithPassword(email, password)
+
+        .then((_) => {
+          console.log(pb.authStore.model)
+          fetchAuth(pb.authStore.model)
+          fetchToken(pb.authStore.token)
+          fetchIsValid(pb.authStore.isValid)
+          toast.success('Login success!')
+        })
         .catch((_) => toast.error('Email/password you entered is incorrect!'))
         .finally(() => dispatch(setLoading(false)))
     } catch (err) {
@@ -37,11 +62,15 @@ export function useAuthController() {
     }
   }
 
-  async function logOut() {
+  async function onLogOut() {
     try {
       dispatch(setLoading(true))
-      await signOut(auth)
+      pb.authStore.clear()
+      fetchAuth(pb.authStore.model)
+      fetchIsValid(pb.authStore.isValid)
+      fetchToken(pb.authStore.token)
       dispatch(setLoading(false))
+      toast.success('Logout success!')
     } catch (err) {
       dispatch(setError('Error Logout'))
     }
@@ -49,10 +78,12 @@ export function useAuthController() {
 
   return {
     state,
-    signUp,
-    signIn,
-    logOut,
-    fetchUser,
+    onSignUp,
+    onSignIn,
+    onLogOut,
+    fetchAuth,
+    fetchToken,
     fetchLoading,
+    fetchIsValid,
   }
 }

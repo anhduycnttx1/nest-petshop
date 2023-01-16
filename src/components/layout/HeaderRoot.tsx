@@ -11,7 +11,7 @@ import React from 'react'
 import { useAuthController } from '../../controllers/auth'
 
 const HeaderRoot = () => {
-  const { state, logOut } = useAuthController()
+  const { state, onLogOut } = useAuthController()
   const avatarUser = state?.user?.photoURL || avatarDefault
   const heightHeader = 40
   return (
@@ -30,7 +30,7 @@ const HeaderRoot = () => {
             </Title>
           </Group>
           <Group>
-            <PopoverUser logOut={logOut} state={state}>
+            <PopoverUser logOut={onLogOut} state={state}>
               <Avatar src={avatarUser} alt="avatar user" size="sm" />
             </PopoverUser>
           </Group>

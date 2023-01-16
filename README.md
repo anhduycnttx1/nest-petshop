@@ -28,18 +28,25 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `yarn eject`
+### pocket base
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**Install: [Download windown](https://github.com/pocketbase/pocketbase/releases/download/v0.11.2/pocketbase_0.11.2_windows_amd64.zip)**
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Once you've downloaded and extracted the archive, you could start the application by running the following console command in the extracted directory: **`./pocketbase serve`**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**And that's it!** A web server will be started with the following routes:
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+ `http://127.0.0.1:8090`       - if pb_public directory exists, serves the static content from it (html, css, images, etc.)
+ `http://127.0.0.1:8090/_/     - Admin dashboard UI
+ `http://127.0.0.1:8090/api/`  - REST API
+
+The first time, when you access the Admin dashboard UI, it will prompt you to create your first admin account (email and pass).
 
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You can learn more in the [Pocket Base](https://pocketbase.io/docs/).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+To learn Redux, check out the [React documentation](https://redux-toolkit.js.org/tutorials/overview).

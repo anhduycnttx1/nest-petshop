@@ -5,8 +5,9 @@ import SectionAddPost from '../../components/add-post-section'
 import { usePostController } from '../../controllers/post'
 import { useEffect, useState } from 'react'
 import LoaderPage from '../../components/loader/Loader'
+import HeaderInfo from '../../components/user-header-info'
 
-const HomeContainer = () => {
+const UserProfileContainer = () => {
   const { state, onGetPosts } = usePostController()
   const { loading, posts } = state
   useEffect(() => {
@@ -15,6 +16,7 @@ const HomeContainer = () => {
 
   return (
     <Container>
+      <HeaderInfo />
       <SectionAddPost />
       {loading && <LoaderPage />}
       {!loading && posts && <PostList posts={posts} />}
@@ -22,4 +24,4 @@ const HomeContainer = () => {
   )
 }
 
-export default HomeContainer
+export default UserProfileContainer

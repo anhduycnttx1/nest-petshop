@@ -7,12 +7,12 @@ type LayoutRootProps = {}
 
 function LayoutRoot({}: LayoutRootProps) {
   const { state } = useAuthController()
-  const { loading, isValid } = state
+  const { loading } = state
   return (
     <>
       {loading && <LoaderPage />}
-      {!loading && !isValid && <Navigate to="/login" replace={true} />}
-      {!loading && isValid && (
+      {/* {!loading && !isAuthenticated && <Navigate to="/login" replace={true} />} */}
+      {!loading && (
         <AppShell padding="md" header={<HeaderRoot />}>
           {/* Your application here */}
           <Outlet />

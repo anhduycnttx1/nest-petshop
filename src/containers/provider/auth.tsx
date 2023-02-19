@@ -1,32 +1,25 @@
 import React, { useEffect } from 'react'
 // import { auth } from '../../libs/firebase'
 import { useAuthController } from '../../controllers/auth'
-import { pb } from '../../libs/pocketbase'
+import LoaderPage from '../../components/loader/Loader'
+import { Navigate } from 'react-router-dom'
 type AuthProvider = {
   children?: React.ReactNode
 }
 
 const AuthProvider = (props: AuthProvider): JSX.Element => {
-  const { fetchIsValid, fetchAuth, fetchLoading, fetchToken } = useAuthController()
+  const { onAuthenticate, state } = useAuthController()
+  const { loading, isAuthenticated } = state
   useEffect(() => {
-    const currentUser = pb.authStore.model
-    console.log(currentUser)
-    fetchIsValid(pb.authStore.isValid)
-    fetchToken(pb.authStore.token)
-    fetchAuth(currentUser)
-    fetchLoading(false)
+    onAuthenticate()
   }, [])
-  return <>{props.children}</>
+  return (
+    <React.Fragment>
+      {loading && <LoaderPage />}
+      {!loading && !isAuthenticated && <Navigate to="/login" replace={true} />}
+      {!loading && isAuthenticated && props.children}
+    </React.Fragment>
+  )
 }
 
 export default AuthProvider
-
-// use Firebase get authentication
-// useEffect(() => {
-//   //function that firebase notifies you if a user is set
-//   const unsubsrcibe = auth.onAuthStateChanged((user) => {
-//     fetchUser(user)
-//     fetchLoading(false)
-//   })
-//   return unsubsrcibe
-// }, [])

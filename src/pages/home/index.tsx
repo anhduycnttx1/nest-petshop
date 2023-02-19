@@ -1,9 +1,6 @@
-import React from 'react'
 import HomeContainer from '../../containers/home'
 
-type HomePagesProps = {}
-
-const HomePages = (props: HomePagesProps) => {
+const HomePages = () => {
   return <HomeContainer />
 }
 

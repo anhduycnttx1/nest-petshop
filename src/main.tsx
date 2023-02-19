@@ -4,10 +4,11 @@ import { RouterProvider } from 'react-router-dom'
 import { router } from './router'
 import './index.css'
 import { store } from './libs/redux/store'
-import AuthProvider from './containers/provider/auth'
+// import AuthProvider from './containers/provider/auth'
 import { Provider } from 'react-redux'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import App from './app'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -25,9 +26,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       theme="light"
     />
     <Provider store={store}>
-      <AuthProvider>
+      <App>
         <RouterProvider router={router} />
-      </AuthProvider>
+      </App>
     </Provider>
   </React.StrictMode>
 )

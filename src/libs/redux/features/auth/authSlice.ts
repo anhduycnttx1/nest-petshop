@@ -1,53 +1,131 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { IFAuthRps, SigninRequest } from '../../../../types'
+import Cookies from 'js-cookie'
+import { axiosAuth } from '../../../api'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
-import { IFAuthModel } from '../../../../types'
-// import { User } from 'firebase/auth'
+import { toast } from 'react-toastify'
 
 // Define a type for the slice state
 interface AuthState {
-  token: string // the authenticated token
-  user: IFAuthModel // the authenticated Record or Admin model
-  isValid: boolean
-  // user: User | null
+  user: IFAuthRps | null
+  isAuthenticated: boolean
   loading: boolean
-  error: string
+  error: any
 }
-// Define the initial state using that type
+// define initial state
 const initialState: AuthState = {
+  isAuthenticated: false,
   user: null,
-  token: '',
-  isValid: false,
   loading: true,
-  error: '',
+  error: null,
 }
 
-export const authSlice = createSlice({
+// define login thunk
+export const login = createAsyncThunk(
+  'auth/login',
+  async (body: { email: string; password: string }, thunkAPI) => {
+    try {
+      await axiosAuth.login(body.email, body.password)
+      const response = await axiosAuth.fetchAuthenticate()
+      return response.data
+    } catch (error) {
+      // @ts-ignore
+      return thunkAPI.rejectWithValue(error.message)
+    }
+  }
+)
+// define register thunk
+export const register = createAsyncThunk('auth/register', async (body: SigninRequest, thunkAPI) => {
+  try {
+    await axiosAuth.signup(body)
+    const response = await axiosAuth.fetchAuthenticate()
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error.message)
+  }
+})
+// define authentication thunk
+export const authenticate = createAsyncThunk('auth/authenticate', async (_, thunkAPI) => {
+  const refreshToken = Cookies.get('refresh_token') || ''
+  if (!refreshToken) throw thunkAPI.rejectWithValue(null)
+  try {
+    const response = await axiosAuth.fetchAuthenticate()
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error.message)
+  }
+})
+
+// define slice
+const authSlice = createSlice({
   name: 'auth',
-  // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setIsValid: (state, action: PayloadAction<boolean>) => {
-      state.isValid = action.payload
+    logout: (state) => {
+      Cookies.remove('access_token')
+      Cookies.remove('refresh_token')
+      state.isAuthenticated = false
+      state.user = null
     },
-    setToken: (state, action: PayloadAction<string>) => {
-      state.token = action.payload
-    },
-    setAuthModel: (state, action: PayloadAction<IFAuthModel>) => {
-      state.user = action.payload
-    },
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload
-    },
-    setError: (state, action: PayloadAction<string>) => {
-      state.error = action.payload
-    },
+  },
+  extraReducers: (builder) => {
+    builder
+      // thunk async login
+      .addCase(login.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(login.fulfilled, (state, action) => {
+        state.loading = false
+        state.isAuthenticated = true
+        state.user = action.payload
+        toast.success('Login success!')
+      })
+      .addCase(login.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload.message
+        // @ts-ignore
+        toast.error(action.payload)
+      })
+      // thunk async register
+      .addCase(register.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.loading = false
+        state.isAuthenticated = true
+        state.user = action.payload
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload
+        // @ts-ignore
+        toast.error(action.payload)
+      })
+      // thunk async authenticate
+      .addCase(authenticate.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(authenticate.fulfilled, (state, action) => {
+        state.loading = false
+        state.isAuthenticated = true
+        state.user = action.payload
+      })
+      .addCase(authenticate.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload
+      })
   },
 })
 
-export const { setAuthModel, setLoading, setError, setIsValid, setToken } = authSlice.actions
-
-// Other code such as selectors can use the imported `RootState` type
-export const selectUser = (state: RootState) => state.auth.user
-
+// export actions and reducer
+export const { logout } = authSlice.actions
 export default authSlice.reducer

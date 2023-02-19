@@ -14,12 +14,11 @@ import {
   Title,
 } from '@mantine/core'
 import { useAuthController } from '../../controllers/auth'
-import LoaderPage from '../../components/loader/Loader'
 import { Navigate } from 'react-router-dom'
 import { useState } from 'react'
 
 type FormLoginValue = {
-  email: string
+  username: string
   password: string
 }
 const shadow_md = {
@@ -27,25 +26,26 @@ const shadow_md = {
 }
 const LoginPage = () => {
   const [opened, setOpened] = useState(false)
-  const { onSignIn, state } = useAuthController()
-  const { loading, isValid } = state
+  const { onSignin, state } = useAuthController()
+  const { loading, isAuthenticated } = state
   const formLogin = useForm({
     initialValues: {
-      email: 'admin@test.com',
-      password: 'abcd1234',
+      username: 'usertest',
+      password: 'Abcd1234',
     },
 
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      // email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
+      username: (value) => (value.length >= 4 ? null : 'Username must have at least 4 letters'),
       password: (value) => (value.length >= 6 ? null : 'Password must have at least 6 letters'),
     },
   })
-  const handlerSubmit = (values: FormLoginValue) => onSignIn(values.email, values.password)
+  const handlerSubmit = (values: FormLoginValue) => onSignin(values.username, values.password)
   return (
     <>
       {/* {loading && <LoaderPage />} */}
-      {!loading && isValid && <Navigate to="/" replace={true} />}
-      {!isValid && (
+      {!loading && isAuthenticated && <Navigate to="/" />}
+      {!isAuthenticated && (
         <Container>
           <Flex h="100vh" align="center" justify="center">
             <form onSubmit={formLogin.onSubmit(handlerSubmit)} style={{ width: 'auto' }}>
@@ -56,9 +56,9 @@ const LoginPage = () => {
                 <Space h="md"></Space>
                 <TextInput
                   withAsterisk
-                  label="Email"
-                  placeholder="your@email.com"
-                  {...formLogin.getInputProps('email')}
+                  label="Username"
+                  placeholder="username"
+                  {...formLogin.getInputProps('username')}
                 />
 
                 <PasswordInput
@@ -101,20 +101,22 @@ const LoginPage = () => {
 
 export default LoginPage
 
-type FormRegisterProps = {}
 type FormRegisterValue = {
   email: string
   password: string
   confirmPassword: string
   fisrtName: string
   surName: string
+  username: string
 }
-function FormRegister(props: FormRegisterProps) {
-  const { onSignUp, state } = useAuthController()
+
+function FormRegister() {
+  const { onSignup, state } = useAuthController()
   const formRegister = useForm({
     initialValues: {
       email: '',
       password: '',
+      username: '',
       confirmPassword: '',
       fisrtName: '',
       surName: '',
@@ -123,14 +125,19 @@ function FormRegister(props: FormRegisterProps) {
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => (value.length >= 6 ? null : 'Password must have at least 6 letters'),
+      username: (value) => (value.length >= 6 ? null : 'Username must have at least 6 letters'),
       confirmPassword: (value, values) =>
         value !== values.password ? 'Passwords did not match' : null,
     },
   })
-  const handlerSubmit = (values: FormRegisterValue) => {
-    const fullname = `${values.fisrtName} ${values.surName}`
-    onSignUp(fullname, values.email, values.password, values.confirmPassword)
-  }
+  const handlerSubmit = (values: FormRegisterValue) =>
+    onSignup({
+      username: values.username,
+      password: values.confirmPassword,
+      email: values.email,
+      lastName: values.surName,
+      firstName: values.fisrtName,
+    })
 
   return (
     <Box>
@@ -159,6 +166,12 @@ function FormRegister(props: FormRegisterProps) {
             label="Email"
             placeholder="your@email.com"
             {...formRegister.getInputProps('email')}
+          />
+          <TextInput
+            withAsterisk
+            label="Username"
+            placeholder="username"
+            {...formRegister.getInputProps('username')}
           />
           <PasswordInput
             label="Password"

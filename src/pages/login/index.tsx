@@ -1,5 +1,6 @@
 import { useForm } from '@mantine/form'
 import {
+  ActionIcon,
   Box,
   Button,
   Container,
@@ -14,8 +15,9 @@ import {
   Title,
 } from '@mantine/core'
 import { useAuthController } from '../../controllers/auth'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { IconHome } from '@tabler/icons'
 
 type FormLoginValue = {
   username: string
@@ -28,6 +30,7 @@ const LoginPage = () => {
   const [opened, setOpened] = useState(false)
   const { onSignin, state } = useAuthController()
   const { loading, isAuthenticated } = state
+  const navigator = useNavigate()
   const formLogin = useForm({
     initialValues: {
       username: 'usertest',
@@ -41,6 +44,7 @@ const LoginPage = () => {
     },
   })
   const handlerSubmit = (values: FormLoginValue) => onSignin(values.username, values.password)
+
   return (
     <>
       {/* {loading && <LoaderPage />} */}
@@ -51,6 +55,9 @@ const LoginPage = () => {
             <form onSubmit={formLogin.onSubmit(handlerSubmit)} style={{ width: 'auto' }}>
               <Box sx={{ ...shadow_md }} mx="auto" px={40} py={24}>
                 <Group>
+                  <ActionIcon color="dark" variant="transparent" onClick={() => navigator('/')}>
+                    <IconHome size={18} />
+                  </ActionIcon>
                   <Title size="md">Login Account</Title>
                 </Group>
                 <Space h="md"></Space>
@@ -85,7 +92,7 @@ const LoginPage = () => {
                 <Group position="center" mt="md">
                   <Text fz="xs">
                     Don't have an account?{' '}
-                    <Button variant="subtle" compact onClick={() => setOpened(true)}>
+                    <Button variant="subtle" color="cyan" compact onClick={() => setOpened(true)}>
                       Register
                     </Button>
                   </Text>

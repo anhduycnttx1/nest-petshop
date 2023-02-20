@@ -5,6 +5,7 @@ import NotFoundPage from './pages/error/404'
 import LoginPage from './pages/login'
 import PostDetailsPages from './containers/post-details/index'
 import ProfileUserPages from './pages/user/profile'
+import PostFromCreate from './components/post-from-create'
 
 export const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ export const router = createBrowserRouter([
       {
         path: '/user/profile/:userId',
         element: <ProfileUserPages />,
+      },
+      {
+        path: '/test',
+        element: <PostFromCreate />,
       },
     ],
   },

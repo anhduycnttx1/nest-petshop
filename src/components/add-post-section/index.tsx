@@ -36,7 +36,7 @@ export default function SectionAddPost(props: PostListProps) {
           transitionDuration={500}
           transitionTimingFunction="ease"
         >
-          <PostFromCreate />
+          <PostFromCreate onOpened={setOpened} />
         </Modal>
         <Button color="violet" radius="md" leftIcon={<IconPlus />} onClick={handlerShareIdeas}>
           Share your ideas

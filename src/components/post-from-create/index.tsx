@@ -15,16 +15,23 @@ import {
 import { useCallback, useState } from 'react'
 import { useForm } from '@mantine/form'
 import { IconX, IconHash } from '@tabler/icons'
+import { usePostController } from '../../controllers/post'
 
-const PostFromCreate = () => {
+type Props = {
+  onOpened: React.Dispatch<React.SetStateAction<boolean>>
+}
+const PostFromCreate = ({ onOpened }: Props) => {
+  const { onCreatePost, state } = usePostController()
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const { classes } = useStyles()
+
   const handlerUpfile = useCallback((files: any) => {
     const selectedFile = files[0]
     setFile(selectedFile)
     setPreviewUrl(URL.createObjectURL(selectedFile))
   }, [])
+
   const form = useForm({
     initialValues: {
       title: '',
@@ -33,17 +40,19 @@ const PostFromCreate = () => {
     },
 
     validate: {
-      title: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid title'),
+      title: (value) => (value.trim().length > 0 ? null : 'Invalid title'),
     },
   })
-
+  const handleSubmit = (values: { title: string; content: string; tags: string }) => {
+    onCreatePost(values, file).then(() => onOpened(false))
+  }
   return (
     <div>
       <Box mx="auto">
         <Title pb={10} order={2}>
           New post
         </Title>
-        <form onSubmit={form.onSubmit((values) => console.log(values))}>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
           <Stack spacing="lg">
             <TextInput
               radius="lg"
@@ -94,7 +103,7 @@ const PostFromCreate = () => {
               )}
             </Stack>
             <Group position="right" mt="md">
-              <Button color="cyan" type="submit">
+              <Button color="cyan" type="submit" loading={state.loading}>
                 Submit
               </Button>
             </Group>
@@ -106,15 +115,6 @@ const PostFromCreate = () => {
 }
 
 export default PostFromCreate
-
-// function handleSubmit(event) {
-//      event.preventDefault();
-//      const formData = new FormData();
-//      formData.append('image', file);
-//      axios.post('/api/upload-image', formData).then(response => {
-//        console.log(response.data);
-//      });
-//    }
 
 const useStyles = createStyles((theme) => ({
   hero: {

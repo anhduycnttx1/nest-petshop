@@ -1,4 +1,4 @@
-import { Container } from '@mantine/core'
+import { Container, Stack, Loader } from '@mantine/core'
 import PostView from '../../components/post-view'
 import { usePostController } from '../../controllers/post/index'
 import { useEffect } from 'react'
@@ -15,9 +15,13 @@ const PostDetailsContainer = () => {
   }, [postId])
   return (
     <Container>
-      {loading && <LoaderPage />}
+      {loading && <Loader />}
       {!loading && !postSelect && <NotFoundPage />}
-      {!loading && postSelect && <PostView post={postSelect} />}
+      {!loading && postSelect && (
+        <Stack>
+          <PostView post={postSelect} />
+        </Stack>
+      )}
     </Container>
   )
 }

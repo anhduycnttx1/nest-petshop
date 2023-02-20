@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
 import { IFPostList } from '../../../../types'
 import { axiosPosts } from '../../../api/post.axios'
 import { IFPostView } from './../../../../types/index'
+import { toast } from 'react-toastify'
 
 // Define a type for the slice state
 interface PostsState {
@@ -26,10 +27,32 @@ export const fetchPosts = createAsyncThunk('post/list', async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(error)
   }
 })
-// define login thunk
+// define fetchPostByID
 export const fetchPostById = createAsyncThunk('post/details', async (postId: string, thunkAPI) => {
   try {
     const result = await axiosPosts.getPostById(postId)
+    return result.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error)
+  }
+})
+
+// define fetchPostByID
+export const fetchPostByUser = createAsyncThunk('post/user/list', async (userId: string, thunkAPI) => {
+  try {
+    const result = await axiosPosts.getPostByUser(userId)
+    return result.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error)
+  }
+})
+
+// define login thunk
+export const createPostByUsser = createAsyncThunk('post/create', async (data: any, thunkAPI) => {
+  try {
+    const result = await axiosPosts.createrPost(data)
     return result.data
   } catch (error) {
     // @ts-ignore
@@ -41,7 +64,11 @@ export const postsSlice = createSlice({
   name: 'post',
 
   initialState,
-  reducers: {},
+  reducers: {
+    onLoading: (state, action) => {
+      state.loading = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder
       // thunk async list post
@@ -70,11 +97,38 @@ export const postsSlice = createSlice({
         // @ts-ignore
         state.error = action.payload.message
       })
+      //create post
+      .addCase(createPostByUsser.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(createPostByUsser.fulfilled, (state, action) => {
+        state.loading = false
+        toast.success('Create a post success!')
+        state.posts.splice(0, 0, action.payload)
+      })
+      .addCase(createPostByUsser.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload.message
+      })
+      //get post by user
+      .addCase(fetchPostByUser.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchPostByUser.fulfilled, (state, action) => {
+        state.loading = false
+        state.posts = action.payload
+      })
+      .addCase(fetchPostByUser.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload.message
+      })
   },
 })
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectUser = (state: RootStaimport { axiosPosts } from './../../../api/post.axios';
-export const {} = postsSlice.actions
+export const { onLoading } = postsSlice.actions
 
 export default postsSlice.reducer

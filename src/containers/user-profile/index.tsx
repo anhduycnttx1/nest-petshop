@@ -9,12 +9,12 @@ import { useParams } from 'react-router-dom'
 
 const UserProfileContainer = () => {
   let { userId } = useParams()
-  const { state, onGetPosts } = usePostController()
+  const { state, onGetPostsByUser } = usePostController()
   const { user } = useAuthController().state
   const { loading, posts } = state
   useEffect(() => {
-    onGetPosts()
-  }, [])
+    if (userId) onGetPostsByUser(userId)
+  }, [userId])
 
   return (
     <Container>

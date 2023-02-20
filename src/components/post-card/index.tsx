@@ -4,6 +4,7 @@ import { IconBookmark, IconHeart, IconMessageCircle2 } from '@tabler/icons'
 import { Link, useNavigate } from 'react-router-dom'
 import avatarfault from './../../assets/user.png'
 import imageDfault from './../../assets/banner.png'
+import { timeAgoHepler } from '../../helpers'
 
 type MyCardProps = {
   post: IFPostList
@@ -15,15 +16,22 @@ function PostCard(props: MyCardProps) {
     <Card shadow="md" style={{ maxWidth: 310, cursor: 'pointer' }} radius="md" withBorder>
       <Card.Section px="md" py="xs">
         <Tooltip label={author.display_name} color="dark" position="top-start" withArrow>
-          <Avatar
-            onClick={() => navigate(`/user/profile/${author.id}`)}
-            size={32}
-            radius="xl"
-            color="blue"
-            src={author.avatar || avatarfault}
-            alt="Avatar"
-            style={{ marginTop: 10 }}
-          />
+          <Group>
+            <Avatar
+              onClick={() => navigate(`/user/profile/${author.id}`)}
+              size={32}
+              radius="xl"
+              color="blue"
+              src={author.avatar || avatarfault}
+              alt="Avatar"
+            />
+            <div>
+              <Text weight={600} size={14}>
+                {author?.display_name}
+              </Text>
+              <Text size={12}>{timeAgoHepler(release_date)}</Text>
+            </div>
+          </Group>
         </Tooltip>
       </Card.Section>
       <Card.Section px="md" mih={50} onClick={() => navigate(`/post/public/${id}`)}>

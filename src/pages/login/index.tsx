@@ -33,8 +33,8 @@ const LoginPage = () => {
   const navigator = useNavigate()
   const formLogin = useForm({
     initialValues: {
-      username: 'usertest',
-      password: 'Abcd1234',
+      username: '',
+      password: '',
     },
 
     validate: {
@@ -52,8 +52,8 @@ const LoginPage = () => {
       {!isAuthenticated && (
         <Container>
           <Flex h="100vh" align="center" justify="center">
-            <form onSubmit={formLogin.onSubmit(handlerSubmit)} style={{ width: 'auto' }}>
-              <Box sx={{ ...shadow_md }} mx="auto" px={40} py={24}>
+            <Box sx={{ ...shadow_md }} mx="auto" px={40} py={24}>
+              <form onSubmit={formLogin.onSubmit(handlerSubmit)} style={{ width: 'auto' }}>
                 <Group>
                   <ActionIcon color="dark" variant="transparent" onClick={() => navigator('/')}>
                     <IconHome size={18} />
@@ -81,24 +81,20 @@ const LoginPage = () => {
                   </Button>
                 </Group>
 
-                <Modal
-                  opened={opened}
-                  onClose={() => setOpened(false)}
-                  title="It's quick and easy."
-                >
+                <Modal opened={opened} onClose={() => setOpened(false)} title="It's quick and easy.">
                   {/* Modal content */}
                   <FormRegister />
                 </Modal>
-                <Group position="center" mt="md">
-                  <Text fz="xs">
-                    Don't have an account?{' '}
-                    <Button variant="subtle" color="cyan" compact onClick={() => setOpened(true)}>
-                      Register
-                    </Button>
-                  </Text>
-                </Group>
-              </Box>
-            </form>
+              </form>
+              <Group position="center" mt="md">
+                <Text fz="xs">
+                  Don't have an account?{' '}
+                  <Button variant="subtle" color="cyan" compact onClick={() => setOpened(true)}>
+                    Register
+                  </Button>
+                </Text>
+              </Group>
+            </Box>
           </Flex>
         </Container>
       )}
@@ -133,11 +129,10 @@ function FormRegister() {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : 'Invalid email'),
       password: (value) => (value.length >= 6 ? null : 'Password must have at least 6 letters'),
       username: (value) => (value.length >= 6 ? null : 'Username must have at least 6 letters'),
-      confirmPassword: (value, values) =>
-        value !== values.password ? 'Passwords did not match' : null,
+      confirmPassword: (value, values) => (value !== values.password ? 'Passwords did not match' : null),
     },
   })
-  const handlerSubmit = (values: FormRegisterValue) =>
+  const handlerSubmit = (values: FormRegisterValue) => {
     onSignup({
       username: values.username,
       password: values.confirmPassword,
@@ -145,6 +140,7 @@ function FormRegister() {
       lastName: values.surName,
       firstName: values.fisrtName,
     })
+  }
 
   return (
     <Box>
@@ -159,32 +155,13 @@ function FormRegister() {
               withAsterisk
               label="First Name"
               placeholder="First name"
-              {...formRegister.getInputProps('firstName')}
+              {...formRegister.getInputProps('fisrtName')}
             />
-            <TextInput
-              withAsterisk
-              label="Surname"
-              placeholder="Suname"
-              {...formRegister.getInputProps('surName')}
-            />
+            <TextInput withAsterisk label="Surname" placeholder="Suname" {...formRegister.getInputProps('surName')} />
           </Group>
-          <TextInput
-            withAsterisk
-            label="Email"
-            placeholder="your@email.com"
-            {...formRegister.getInputProps('email')}
-          />
-          <TextInput
-            withAsterisk
-            label="Username"
-            placeholder="username"
-            {...formRegister.getInputProps('username')}
-          />
-          <PasswordInput
-            label="Password"
-            placeholder="Password"
-            {...formRegister.getInputProps('password')}
-          />
+          <TextInput withAsterisk label="Email" placeholder="your@email.com" {...formRegister.getInputProps('email')} />
+          <TextInput withAsterisk label="Username" placeholder="username" {...formRegister.getInputProps('username')} />
+          <PasswordInput label="Password" placeholder="Password" {...formRegister.getInputProps('password')} />
           <PasswordInput
             label="Confirm password"
             placeholder="Confirm password"

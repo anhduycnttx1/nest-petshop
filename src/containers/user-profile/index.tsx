@@ -1,14 +1,16 @@
-import { Container } from '@mantine/core'
+import { Container, Loader, Space } from '@mantine/core'
 import PostList from '../../components/post-list'
-import { IFPostList } from '../../types'
 import SectionAddPost from '../../components/add-post-section'
 import { usePostController } from '../../controllers/post'
 import { useEffect, useState } from 'react'
-import LoaderPage from '../../components/loader/Loader'
 import HeaderInfo from '../../components/user-header-info'
+import { useAuthController } from '../../controllers/auth'
+import { useParams } from 'react-router-dom'
 
 const UserProfileContainer = () => {
+  let { userId } = useParams()
   const { state, onGetPosts } = usePostController()
+  const { user } = useAuthController().state
   const { loading, posts } = state
   useEffect(() => {
     onGetPosts()
@@ -17,8 +19,8 @@ const UserProfileContainer = () => {
   return (
     <Container>
       <HeaderInfo />
-      <SectionAddPost />
-      {loading && <LoaderPage />}
+      {user?.id === userId ? <SectionAddPost /> : <Space h={100} />}
+      {loading && <Loader />}
       {!loading && posts && <PostList posts={posts} />}
     </Container>
   )

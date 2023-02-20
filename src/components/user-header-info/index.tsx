@@ -1,5 +1,6 @@
-import { Image, Flex, Loader, createStyles } from '@mantine/core'
-
+import { Image, createStyles } from '@mantine/core'
+import { useAuthController } from './../../controllers/auth/index'
+import defaultAvt from './../../assets/user.png'
 const useStyles = createStyles((theme) => ({
   hero: {
     position: 'relative',
@@ -23,19 +24,19 @@ const useStyles = createStyles((theme) => ({
     borderWidth: 4,
     borderStyle: 'solid',
     borderColor: '#fff',
+    background: '#fff',
   },
 }))
 
 export default function HeaderInfo() {
   const { classes } = useStyles()
+  const { user } = useAuthController().state
 
+  const avatar = user?.avatar ? user?.avatar : defaultAvt
   return (
     <div className={classes.hero}>
       <div className={classes.avatar}>
-        <Image
-          radius={100}
-          src={`http://localhost:8000/api/posi/v1/public/user/user-1676738722079-402608132.jpg`}
-        />
+        <Image radius={100} src={avatar} />
       </div>
     </div>
   )

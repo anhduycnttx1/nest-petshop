@@ -59,7 +59,7 @@ async function refreshToken() {
 async function fetchNewToken(refreshToken: any) {
   try {
     // Gọi API để lấy token mới
-    const response = await axiosInstance.post('auth/refresh', {
+    const response = await axiosInstance.get('auth/refresh', {
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },

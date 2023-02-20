@@ -22,19 +22,16 @@ const initialState: AuthState = {
 }
 
 // define login thunk
-export const login = createAsyncThunk(
-  'auth/login',
-  async (body: { email: string; password: string }, thunkAPI) => {
-    try {
-      await axiosAuth.login(body.email, body.password)
-      const response = await axiosAuth.fetchAuthenticate()
-      return response.data
-    } catch (error) {
-      // @ts-ignore
-      return thunkAPI.rejectWithValue(error.message)
-    }
+export const login = createAsyncThunk('auth/login', async (body: { email: string; password: string }, thunkAPI) => {
+  try {
+    await axiosAuth.login(body.email, body.password)
+    const response = await axiosAuth.fetchAuthenticate()
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error.message)
   }
-)
+})
 // define register thunk
 export const register = createAsyncThunk('auth/register', async (body: SigninRequest, thunkAPI) => {
   try {

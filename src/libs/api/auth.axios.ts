@@ -41,6 +41,10 @@ const fetchAuthenticate = async () => {
 const signup = async (data: SigninRequest) => {
   try {
     const response = await axiosInstance.post('/auth/sign-up', data)
+    const token = response.data.data
+    // Lưu access_token mới vào cookie hoặc local storage
+    Cookies.set('access_token', token.access_token)
+    Cookies.set('refresh_token', token.refresh_token)
     return response.data
   } catch (error) {
     throw error

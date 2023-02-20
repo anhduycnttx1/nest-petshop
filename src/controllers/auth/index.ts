@@ -12,7 +12,6 @@ export function useAuthController() {
   function onSignup(data: SigninRequest) {
     try {
       dispatch(register(data))
-      toast.success('Register success!')
     } catch (err) {
       // @ts-ignore
       toast.error(err.message)

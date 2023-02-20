@@ -20,7 +20,7 @@ const UserProfileContainer = () => {
     <Container>
       <HeaderInfo />
       {user?.id === userId ? <SectionAddPost /> : <Space h={100} />}
-      {loading && <Loader />}
+      {loading && <Loader color="cyan" size="sm" />}
       {!loading && posts && <PostList posts={posts} />}
     </Container>
   )

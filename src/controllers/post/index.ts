@@ -39,24 +39,24 @@ export function usePostController() {
       toast.error(err.message)
     }
   }
-  async function onCreatePost(data: any, file: File | null) {
+  async function onCreatePost(data: { title: string; content: string; tags: string }, file: File | null) {
+    dispatch(onLoading(true))
     try {
-      dispatch(onLoading(true))
       if (file) {
         const formData = new FormData()
-        formData.append('image', file)
-        formData.append('tpye', 'post')
-
+        formData.append('type', 'post')
+        formData.append('file', file)
         await axiosImage
           .uploadImage(formData)
-          .then((data) => dispatch(createPostByUsser({ ...data, imageId: data.imgId })))
+          .then((image) => dispatch(createPostByUsser({ ...data, imageId: image.imgId })))
           .catch((err) => toast.error(err.message))
-          .finally(() => dispatch(onLoading(false)))
       } else {
         dispatch(createPostByUsser(data))
       }
     } catch (err) {
       console.log(err)
+    } finally {
+      dispatch(onLoading(false))
     }
   }
 

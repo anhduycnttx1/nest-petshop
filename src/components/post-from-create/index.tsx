@@ -22,6 +22,7 @@ type Props = {
 }
 const PostFromCreate = ({ onOpened }: Props) => {
   const { onCreatePost, state } = usePostController()
+  const [loading, setLoading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const { classes } = useStyles()
@@ -44,7 +45,15 @@ const PostFromCreate = ({ onOpened }: Props) => {
     },
   })
   const handleSubmit = (values: { title: string; content: string; tags: string }) => {
-    onCreatePost(values, file).then(() => onOpened(false))
+    setLoading(true)
+    try {
+      onCreatePost(values, file)
+    } catch (err) {
+      console.log(err)
+    } finally {
+      setLoading(false)
+      return onOpened(false)
+    }
   }
   return (
     <div>
@@ -117,16 +126,6 @@ const PostFromCreate = ({ onOpened }: Props) => {
 export default PostFromCreate
 
 const useStyles = createStyles((theme) => ({
-  hero: {
-    position: 'relative',
-    backgroundImage:
-      'url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    minHeight: 400,
-    borderRadius: theme.spacing.sm,
-    marginBottom: 26,
-  },
   btnUpload: {
     padding: '10px 20px',
     borderWidth: 2,

@@ -4,7 +4,7 @@ import { IconApps, IconLogout, IconMessageCircle, IconPhoto, IconSettings } from
 import avatarDefault from '../../assets/user.png'
 import logoDefault from '../../assets/logo.png'
 import { useNavigate } from 'react-router-dom'
-import { useAuthController } from '../../controllers/auth'
+import { useAuthController } from '../../controllers/auth.controller'
 
 const HeaderRoot = () => {
   const { state } = useAuthController()
@@ -26,12 +26,24 @@ const HeaderRoot = () => {
           <Group>
             {state.isAuthenticated && (
               <PopoverUser>
-                <Group spacing="xs" className="my-button">
+                <Group
+                  pl={11}
+                  pr={4}
+                  py={4}
+                  spacing="xs"
+                  className="my-button"
+                  sx={{
+                    cursor: 'pointer',
+                    background: '#f3f4f6',
+                    borderRadius: '50px',
+                    boxShadow: '0 3px 8px -3px rgba(99,102,241,.5), 0 1px 3px -4px rgba(99,102,241,.5)',
+                  }}
+                >
                   <Text fw={500} size={14}>
                     {author?.display_name}
                   </Text>
                   {/* Add logo application */}
-                  <Avatar src={avatarUser} alt="avatar user" size="sm" />
+                  <Avatar radius={50} src={avatarUser} alt="avatar user" size="sm" />
                 </Group>
               </PopoverUser>
             )}
@@ -61,10 +73,7 @@ function PopoverUser({ children }: PopoverUserProps) {
       <Menu.Target>{children}</Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Application</Menu.Label>
-        <Menu.Item
-          icon={<IconApps size={14} />}
-          onClick={() => navigate(`/user/profile/${state.user?.id}`)}
-        >
+        <Menu.Item icon={<IconApps size={14} />} onClick={() => navigate(`/user/profile/${state.user?.id}`)}>
           Profile
         </Menu.Item>
         <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>
@@ -72,12 +81,7 @@ function PopoverUser({ children }: PopoverUserProps) {
         <Menu.Divider />
         <Menu.Label>Settings zone</Menu.Label>
         <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
-        <Menu.Item
-          onClick={() => onLogout()}
-          type="button"
-          color="cyan"
-          icon={<IconLogout size={14} />}
-        >
+        <Menu.Item onClick={() => onLogout()} type="button" color="cyan" icon={<IconLogout size={14} />}>
           Logout account
         </Menu.Item>
       </Menu.Dropdown>

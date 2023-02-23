@@ -13,11 +13,12 @@ function PostCard(props: MyCardProps) {
   const { title, image, id, countLike, countComment, release_date, author } = props.post
   const navigate = useNavigate()
   return (
-    <Card shadow="md" style={{ maxWidth: 310, cursor: 'pointer' }} radius="md" withBorder>
+    <Card shadow="md" style={{ minWidth: 300, cursor: 'pointer', backgroundColor: '#f9fafb' }} radius="md" withBorder>
       <Card.Section px="md" py="xs">
         <Tooltip label={author.display_name} color="dark" position="top-start" withArrow>
           <Group>
             <Avatar
+              sx={{ boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
               onClick={() => navigate(`/user/profile/${author.id}`)}
               size={32}
               radius="xl"
@@ -42,7 +43,7 @@ function PostCard(props: MyCardProps) {
         </Group>
       </Card.Section>
       <Card.Section mt="sm" px="xs" onClick={() => navigate(`/post/public/${id}`)}>
-        <Image src={image || imageDfault} alt={title} height={180} radius="md" />
+        <Image src={image || imageDfault} alt={title} height={180} radius="md" withPlaceholder />
       </Card.Section>
       <Group grow style={{ marginTop: 10 }}>
         <ActionIcon color="pink" variant="transparent">

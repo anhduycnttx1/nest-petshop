@@ -1,7 +1,7 @@
 import { Button, Center, Grid, Group, Modal, Text } from '@mantine/core'
 import { IconPlus } from '@tabler/icons'
 import { useNavigate } from 'react-router-dom'
-import { useAuthController } from './../../controllers/auth/index'
+import { useAuthController } from '../../controllers/auth.controller'
 import { useState } from 'react'
 import PostFromCreate from '../post-from-create'
 

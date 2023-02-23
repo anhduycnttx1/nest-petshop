@@ -8,13 +8,13 @@ export type SigninRequest = {
   firstName: string
 }
 
-export interface IFUserList {
-  id: number
-  displayName: string
-  avt: string
-  followers: number
-  following: number
-}
+// export interface IFUserList {
+//   id: number
+//   displayName: string
+//   avt: string
+//   followers: number
+//   following: number
+// }
 
 export interface IFAuthRps {
   id: string
@@ -59,6 +59,15 @@ export interface IFCommentList {
   id: string
   content: string
   image: Url
-  release_date: Date
+  release_date: string
   author: IFAuthoerInfo
+}
+
+export interface IFUserView {
+  id: string
+  username: string
+  email: string
+  display_name: string
+  avatar: Url
+  banner: Url
 }

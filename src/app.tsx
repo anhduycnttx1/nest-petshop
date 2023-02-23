@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 // import { auth } from '../../libs/firebase'
-import { useAuthController } from './controllers/auth'
+import { useAuthController } from './controllers/auth.controller'
 
 type AppPrors = {
   children?: React.ReactNode

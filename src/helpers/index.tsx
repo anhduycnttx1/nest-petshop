@@ -1,8 +1,8 @@
-export function timeAgoHepler(time: string) {
-  var date = new Date((time || '').replace(/-/g, '/').replace(/[TZ]/g, ' ')),
-    diff = (new Date().getTime() - date.getTime()) / 1000,
-    day_diff = Math.floor(diff / 86400)
-
+export function timeAgoHepler(timeString: string) {
+  let now = new Date().getTime()
+  let timestamp = new Date(timeString).getTime()
+  let diff = (now - timestamp) / 1000
+  const day_diff = Math.floor(diff / 86400)
   if (isNaN(day_diff) || day_diff < 0 || day_diff >= 31) return
 
   return (

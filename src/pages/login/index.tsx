@@ -14,7 +14,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core'
-import { useAuthController } from '../../controllers/auth'
+import { useAuthController } from '../../controllers/auth.controller'
 import { Navigate, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import { IconHome } from '@tabler/icons'

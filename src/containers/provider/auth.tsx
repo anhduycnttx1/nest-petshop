@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 // import { auth } from '../../libs/firebase'
-import { useAuthController } from '../../controllers/auth'
+import { useAuthController } from '../../controllers/auth.controller'
 import LoaderPage from '../../components/loader/Loader'
 import { Navigate } from 'react-router-dom'
 type AuthProvider = {

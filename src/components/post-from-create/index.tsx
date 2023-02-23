@@ -15,7 +15,7 @@ import {
 import { useCallback, useState } from 'react'
 import { useForm } from '@mantine/form'
 import { IconX, IconHash } from '@tabler/icons'
-import { usePostController } from '../../controllers/post'
+import { usePostController } from '../../controllers/post.controller'
 
 type Props = {
   onOpened: React.Dispatch<React.SetStateAction<boolean>>

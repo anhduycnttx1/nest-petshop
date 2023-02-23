@@ -1,9 +1,9 @@
-import { useAppSelector, useAppDispatch } from '../../libs/redux/hooks'
-import type { RootState } from '../../libs/redux/store'
+import { useAppSelector, useAppDispatch } from '../libs/redux/hooks'
+import type { RootState } from '../libs/redux/store'
 import { toast } from 'react-toastify'
-import { logout, login, authenticate, register } from '../../libs/redux/features/auth/authSlice'
-import { SigninRequest } from '../../types'
-import { axiosAuth } from '../../libs/api/auth.axios'
+import { logout, login, authenticate, register } from '../libs/redux/slice/auth.slice'
+import { SigninRequest } from '../types'
+import { axiosAuth } from '../libs/api/auth.axios'
 
 export function useAuthController() {
   const dispatch = useAppDispatch()

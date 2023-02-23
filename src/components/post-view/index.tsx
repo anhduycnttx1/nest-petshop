@@ -17,8 +17,7 @@ const listGradient = [
   { from: '#ed6ea0', to: '#ec8c69', deg: 35 },
 ]
 const PostView = (props: PostViewProps) => {
-  const { title, image, id, content, countLike, tags, countComment, release_date, author } =
-    props.post
+  const { title, image, id, content, countLike, tags, countComment, release_date, author } = props.post
   const navigate = useNavigate()
 
   return (
@@ -26,11 +25,12 @@ const PostView = (props: PostViewProps) => {
       <Card.Section pt={18} pb={16} px={32} onClick={() => navigate(`/user/profile/${author.id}`)}>
         <Group align="center">
           <Avatar
-            size={32}
+            sx={{ boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
+            size={40}
             radius="xl"
             color="blue"
-            src={author.avatar || avatarfault}
-            alt="Avatar"
+            src={author?.avatar || avatarfault}
+            alt="avatar"
           />
           <div>
             <Text weight={600} size={14}>
@@ -49,11 +49,7 @@ const PostView = (props: PostViewProps) => {
       </Card.Section>
 
       <Card.Section px="md" mih={50}>
-        <Group
-          mb="xs"
-          px="md"
-          style={{ borderLeftWidth: '3px', borderLeftStyle: 'solid', borderColor: '#ce3df3' }}
-        >
+        <Group mb="xs" px="md" style={{ borderLeftWidth: '3px', borderLeftStyle: 'solid', borderColor: '#ce3df3' }}>
           <Text size="md">{content}</Text>
         </Group>
       </Card.Section>
@@ -107,11 +103,6 @@ const PostView = (props: PostViewProps) => {
           </Group>
         </ActionIcon>
       </Group>
-      <Center mih={100}>
-        <Text weight={500} size="sm" sx={{ opacity: 0.6 }}>
-          Be the first to commet
-        </Text>
-      </Center>
     </Stack>
   )
 }

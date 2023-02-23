@@ -2,7 +2,7 @@ import { Container } from '@mantine/core'
 import PostList from '../../components/post-list'
 import { IFPostList } from '../../types'
 import SectionAddPost from '../../components/add-post-section'
-import { usePostController } from '../../controllers/post'
+import { usePostController } from '../../controllers/post.controller'
 import { useEffect, useState } from 'react'
 import LoaderPage from '../../components/loader/Loader'
 

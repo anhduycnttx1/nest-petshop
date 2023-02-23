@@ -1,6 +1,7 @@
-import { Image, createStyles } from '@mantine/core'
-import { useAuthController } from './../../controllers/auth/index'
+import { Text, Image, createStyles, ActionIcon } from '@mantine/core'
 import defaultAvt from './../../assets/user.png'
+import { IFUserView } from '../../types'
+import { IconCamera } from '@tabler/icons'
 const useStyles = createStyles((theme) => ({
   hero: {
     position: 'relative',
@@ -10,11 +11,11 @@ const useStyles = createStyles((theme) => ({
     backgroundPosition: 'center',
     minHeight: 400,
     borderRadius: theme.spacing.sm,
-    marginBottom: 26,
+    marginBottom: 110,
   },
   avatar: {
     position: 'absolute',
-    bottom: -80,
+    bottom: -95,
     left: 20,
     width: 140,
     height: 140,
@@ -25,18 +26,45 @@ const useStyles = createStyles((theme) => ({
     borderStyle: 'solid',
     borderColor: '#fff',
     background: '#fff',
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+  },
+  info: {
+    position: 'absolute',
+    bottom: -88,
+    left: 200,
+  },
+  chageImage: {
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+    zIndex: 100,
+    position: 'absolute',
+    bottom: -96,
+    left: 120,
   },
 }))
 
-export default function HeaderInfo() {
+type Props = {
+  user: IFUserView | null
+}
+export default function HeaderInfo({ user }: Props) {
   const { classes } = useStyles()
-  const { user } = useAuthController().state
-
   const avatar = user?.avatar ? user?.avatar : defaultAvt
   return (
     <div className={classes.hero}>
+      <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageImage}>
+        <IconCamera />
+      </ActionIcon>
       <div className={classes.avatar}>
-        <Image radius={100} src={avatar} />
+        <Image radius={100} src={avatar} withPlaceholder />
+      </div>
+      <div className={classes.info}>
+        <Text weight={750} size={28} color="#1f2937">
+          {user?.display_name}
+        </Text>
+        <Text size={18} color="#6b7280">
+          @{user?.username}
+        </Text>
       </div>
     </div>
   )

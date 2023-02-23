@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit'
-import { IFPostList } from '../../../../types'
-import { axiosPosts } from '../../../api/post.axios'
-import { IFPostView } from './../../../../types/index'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { IFPostList } from '../../../types'
+import { axiosPosts } from '../../api/post.axios'
+import { IFPostView } from '../../../types/index'
 import { toast } from 'react-toastify'
 
 // Define a type for the slice state
@@ -38,11 +38,11 @@ export const fetchPostById = createAsyncThunk('post/details', async (postId: str
   }
 })
 
-// define fetchPostByID
+// define fetchPostByUser
 export const fetchPostByUser = createAsyncThunk('post/user/list', async (userId: string, thunkAPI) => {
   try {
     const result = await axiosPosts.getPostByUser(userId)
-    return result.data
+    return result.data.content
   } catch (error) {
     // @ts-ignore
     return thunkAPI.rejectWithValue(error)

@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import { IFAuthRps, SigninRequest } from '../../../../types'
+import { IFAuthRps, SigninRequest } from '../../../types'
 import Cookies from 'js-cookie'
-import { axiosAuth } from '../../../api'
+import { axiosAuth } from '../../api'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../../store'
+import type { RootState } from '../store'
 import { toast } from 'react-toastify'
 
 // Define a type for the slice state

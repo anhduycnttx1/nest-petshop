@@ -1,13 +1,13 @@
-import { useAppSelector, useAppDispatch } from '../../libs/redux/hooks'
-import type { RootState } from '../../libs/redux/store'
+import { useAppSelector, useAppDispatch } from '../libs/redux/hooks'
+import type { RootState } from '../libs/redux/store'
 import {
   fetchPostById,
   fetchPosts,
   createPostByUsser,
   onLoading,
   fetchPostByUser,
-} from '../../libs/redux/features/post/posts-slice'
-import { axiosImage } from './../../libs/api/image.axios'
+} from '../libs/redux/slice/posts.slice'
+import { axiosImage } from '../libs/api/image.axios'
 import { toast } from 'react-toastify'
 
 export function usePostController() {
@@ -44,12 +44,12 @@ export function usePostController() {
       dispatch(onLoading(true))
       if (file) {
         const formData = new FormData()
-        formData.append('image', file)
-        formData.append('tpye', 'post')
+        formData.append('file', file)
+        formData.append('type', 'post')
 
         await axiosImage
           .uploadImage(formData)
-          .then((data) => dispatch(createPostByUsser({ ...data, imageId: data.imgId })))
+          .then((dataImage) => dispatch(createPostByUsser({ ...data, imageId: dataImage.imgId })))
           .catch((err) => toast.error(err.message))
           .finally(() => dispatch(onLoading(false)))
       } else {

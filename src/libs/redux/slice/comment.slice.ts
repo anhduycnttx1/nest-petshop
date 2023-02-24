@@ -17,7 +17,7 @@ const initialState: PostsState = {
 // define fetchPostByID
 export const fetchCommentOrderbyPost = createAsyncThunk('comment/list', async (postId: string, thunkAPI) => {
   try {
-    const result = await axiosComments.getListPost(postId)
+    const result = await axiosComments.getListComment(postId)
     return result.data
   } catch (error) {
     // @ts-ignore
@@ -25,16 +25,16 @@ export const fetchCommentOrderbyPost = createAsyncThunk('comment/list', async (p
   }
 })
 
-// define login thunk
-// export const createPostByUsser = createAsyncThunk('post/create', async (data: any, thunkAPI) => {
-//   try {
-//     const result = await axiosPosts.createrPost(data)
-//     return result.data
-//   } catch (error) {
-//     // @ts-ignore
-//     return thunkAPI.rejectWithValue(error)
-//   }
-// })
+//define login thunk
+export const createComment = createAsyncThunk('post/create', async (body: { data: any; postId: string }, thunkAPI) => {
+  try {
+    const result = await axiosComments.createComment(body.data, body.postId)
+    return result.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error)
+  }
+})
 
 export const commentSlice = createSlice({
   name: 'comment',
@@ -52,6 +52,19 @@ export const commentSlice = createSlice({
         state.comments = action.payload
       })
       .addCase(fetchCommentOrderbyPost.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload.message
+      })
+      // thuml async add comment
+      .addCase(createComment.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(createComment.fulfilled, (state, action) => {
+        state.loading = false
+        state.comments.push(action.payload)
+      })
+      .addCase(createComment.rejected, (state, action) => {
         state.loading = false
         // @ts-ignore
         state.error = action.payload.message

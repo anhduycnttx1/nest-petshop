@@ -1,7 +1,7 @@
 import { Card, Image, Text, Avatar, Button, Tooltip, Group, ActionIcon } from '@mantine/core'
 import { IFPostList } from '../../types/index'
 import { IconBookmark, IconHeart, IconMessageCircle2 } from '@tabler/icons'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import avatarfault from './../../assets/user.png'
 import imageDfault from './../../assets/banner.png'
 import { timeAgoHepler } from '../../helpers'
@@ -19,7 +19,7 @@ function PostCard(props: MyCardProps) {
           <Group>
             <Avatar
               sx={{ boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
-              onClick={() => navigate(`/user/profile/${author.id}`)}
+              onClick={() => navigate(`/user/${author.id}`)}
               size={32}
               radius="xl"
               color="blue"
@@ -55,7 +55,7 @@ function PostCard(props: MyCardProps) {
         <ActionIcon color="pink" variant="transparent">
           <IconMessageCircle2 />
           <Text weight={700} size="sm" ml={10}>
-            {countComment > 0 ? countLike : null}
+            {countComment > 0 ? countComment : null}
           </Text>
         </ActionIcon>
         <ActionIcon color="pink" variant="transparent">

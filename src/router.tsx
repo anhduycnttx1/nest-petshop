@@ -1,11 +1,12 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import LayoutRoot from './components/layout/LayoutRoot'
+import LayoutRoot from './components/layout/root.layout'
 import HomePages from './pages/home'
 import NotFoundPage from './pages/error/404'
 import LoginPage from './pages/login'
 import PostDetailsPages from './containers/post-details/index'
 import ProfileUserPages from './pages/user/profile'
-import PostFromCreate from './components/post-from-create'
+import GalleryUserPages from './pages/user/gallery'
+import UserLayout from './components/layout/user.layout'
 
 export const router = createBrowserRouter([
   {
@@ -18,16 +19,38 @@ export const router = createBrowserRouter([
         element: <HomePages />,
       },
       {
-        path: '/post/public/:postId',
+        path: 'post/public/:postId',
         element: <PostDetailsPages />,
       },
       {
-        path: '/user/profile/:userId',
-        element: <ProfileUserPages />,
+        path: 'user/:userId',
+        element: <UserLayout />,
+        children: [
+          {
+            path: '',
+            element: <ProfileUserPages />,
+          },
+          {
+            path: 'photos',
+            element: <GalleryUserPages />,
+          },
+        ],
       },
       {
-        path: '/test',
-        element: <PostFromCreate />,
+        path: '/popular',
+        element: <HomePages />,
+      },
+      {
+        path: '/best-upvoted',
+        element: <HomePages />,
+      },
+      {
+        path: '/best-discussions',
+        element: <HomePages />,
+      },
+      {
+        path: '/search',
+        element: <HomePages />,
       },
     ],
   },

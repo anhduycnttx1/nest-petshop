@@ -1,10 +1,10 @@
-import { AppShell, Group, Divider, Container, Button } from '@mantine/core'
+import { AppShell, Group, Divider, Container, Button, Stack } from '@mantine/core'
 import { Outlet } from 'react-router-dom'
-import HeaderRoot from './HeaderRoot'
+import HeaderRoot from './header-root.layout'
 import { useAuthController } from '../../controllers/auth.controller'
 import LoaderPage from '../loader/Loader'
 import { IconBrandDiscord, IconBrandTwitter } from '@tabler/icons'
-import NavbarRoot from './NavbarRoot'
+import NavbarRoot from './navbar-root.layout'
 type LayoutRootProps = {}
 
 function LayoutRoot({}: LayoutRootProps) {
@@ -17,8 +17,11 @@ function LayoutRoot({}: LayoutRootProps) {
       {!loading && (
         <AppShell navbar={<NavbarRoot />} padding="md" header={<HeaderRoot />}>
           {/* Your application here */}
-          <Outlet />
-          <Container mt={90} mb={50}>
+          <Container>
+            <Outlet />
+          </Container>
+
+          <Container pt={90} pb={50}>
             <Divider my="sm" />
             <Group position="right" py="md">
               <Button variant="filled" color="violet" leftIcon={<IconBrandDiscord />}>

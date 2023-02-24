@@ -3,7 +3,6 @@ import { IFPostView } from './../../types/index'
 import { useNavigate } from 'react-router-dom'
 import avatarfault from './../../assets/user.png'
 import imageDfault from './../../assets/banner.png'
-import { IconBookmark, IconHeart, IconMessageCircle2 } from '@tabler/icons'
 import { timeAgoHepler } from '../../helpers'
 
 type PostViewProps = {
@@ -65,44 +64,6 @@ const PostView = (props: PostViewProps) => {
       <Card.Section mt="lg" px="xs">
         <Image src={image || imageDfault} alt={title} height={330} radius="md" />
       </Card.Section>
-
-      <Group
-        position="center"
-        grow
-        mt={14}
-        style={{
-          padding: '12px',
-          borderWidth: 1,
-          borderStyle: 'solid',
-          borderColor: '#cfd6e6',
-          borderRadius: 16,
-        }}
-      >
-        <ActionIcon color="pink">
-          <Group>
-            <IconHeart />
-            <Text weight={700} size="sm">
-              Upvote
-            </Text>
-          </Group>
-        </ActionIcon>
-        <ActionIcon color="orange">
-          <Group>
-            <IconMessageCircle2 />
-            <Text weight={700} size="sm">
-              Comment
-            </Text>
-          </Group>
-        </ActionIcon>
-        <ActionIcon color="yellow">
-          <Group>
-            <IconBookmark />
-            <Text weight={700} size="sm">
-              Bookmark
-            </Text>
-          </Group>
-        </ActionIcon>
-      </Group>
     </Stack>
   )
 }

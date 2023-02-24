@@ -9,13 +9,13 @@ type CommentCardProps = {
   comment: IFCommentList
 }
 function CommentCard(props: CommentCardProps) {
-  const { content, id, release_date, author } = props.comment
+  const { content, release_date, author } = props.comment
   const navigate = useNavigate()
   return (
-    <Card shadow="md" style={{ minWidth: 300, cursor: 'pointer', backgroundColor: '#f9fafb' }} radius="md">
+    <Card style={{ minWidth: 300, cursor: 'pointer', backgroundColor: '#f9fafb' }} radius="xl" withBorder>
       <Card.Section px="md" py="xs">
         <Tooltip label={author.display_name} color="dark" position="top-start" withArrow>
-          <Group onClick={() => navigate(`/user/profile/${author.id}`)}>
+          <Group onClick={() => navigate(`/user/${author.id}`)} mt={10}>
             <Avatar
               sx={{ boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}
               size={40}

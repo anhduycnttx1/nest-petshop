@@ -2,6 +2,7 @@ import { Text, Image, createStyles, ActionIcon } from '@mantine/core'
 import defaultAvt from './../../assets/user.png'
 import { IFUserView } from '../../types'
 import { IconCamera } from '@tabler/icons'
+import { useAuthController } from '../../controllers/auth.controller'
 const useStyles = createStyles((theme) => ({
   hero: {
     position: 'relative',
@@ -15,7 +16,7 @@ const useStyles = createStyles((theme) => ({
   },
   avatar: {
     position: 'absolute',
-    bottom: -95,
+    bottom: -96,
     left: 20,
     width: 140,
     height: 140,
@@ -37,10 +38,20 @@ const useStyles = createStyles((theme) => ({
   chageImage: {
     boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
     cursor: 'pointer',
-    zIndex: 100,
+    zIndex: 2,
     position: 'absolute',
     bottom: -96,
     left: 120,
+    opacity: 0.8,
+  },
+  chageBanne: {
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+    zIndex: 2,
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    opacity: 0.8,
   },
 }))
 
@@ -49,12 +60,21 @@ type Props = {
 }
 export default function HeaderInfo({ user }: Props) {
   const { classes } = useStyles()
+  const useAuth = useAuthController()
   const avatar = user?.avatar ? user?.avatar : defaultAvt
+  const isShowChageImage = useAuth.state.user?.id && useAuth.state.user?.id === user?.id
   return (
     <div className={classes.hero}>
-      <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageImage}>
-        <IconCamera />
-      </ActionIcon>
+      {isShowChageImage && (
+        <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageBanne}>
+          <IconCamera />
+        </ActionIcon>
+      )}
+      {isShowChageImage && (
+        <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageImage}>
+          <IconCamera />
+        </ActionIcon>
+      )}
       <div className={classes.avatar}>
         <Image radius={100} src={avatar} withPlaceholder />
       </div>

@@ -73,10 +73,12 @@ function PopoverUser({ children }: PopoverUserProps) {
       <Menu.Target>{children}</Menu.Target>
       <Menu.Dropdown>
         <Menu.Label>Application</Menu.Label>
-        <Menu.Item icon={<IconApps size={14} />} onClick={() => navigate(`/user/profile/${state.user?.id}`)}>
+        <Menu.Item icon={<IconApps size={14} />} onClick={() => navigate(`/user/${state.user?.id}`)}>
           Profile
         </Menu.Item>
-        <Menu.Item icon={<IconPhoto size={14} />}>Gallery</Menu.Item>
+        <Menu.Item icon={<IconPhoto size={14} />} onClick={() => navigate(`/user/${state.user?.id}/photos`)}>
+          Gallery
+        </Menu.Item>
         <Menu.Item icon={<IconMessageCircle size={14} />}>Messages</Menu.Item>
         <Menu.Divider />
         <Menu.Label>Settings zone</Menu.Label>

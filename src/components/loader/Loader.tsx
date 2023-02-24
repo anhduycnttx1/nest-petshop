@@ -1,10 +1,10 @@
-import { Flex, Loader } from '@mantine/core'
+import { Center, Loader } from '@mantine/core'
 
 const LoaderPage = () => {
   return (
-    <Flex justify="center" align="center" h="100vh">
+    <Center w="100%" h={300}>
       <Loader size="sm" color="cyan" />
-    </Flex>
+    </Center>
   )
 }
 

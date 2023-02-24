@@ -1,7 +1,7 @@
 import axiosInstance from './axios-client'
 
 //API List Post
-const getListPost = async (postId: string) => {
+const getListComment = async (postId: string) => {
   try {
     const response = await axiosInstance.get(`/comments/${postId}`)
     return response.data
@@ -10,15 +10,16 @@ const getListPost = async (postId: string) => {
   }
 }
 
-const createrPost = async (data: any) => {
+const createComment = async (data: any, postId: string) => {
   try {
-    const response = await axiosInstance.post('posts', data)
+    const response = await axiosInstance.post(`/comments/${postId}`, data)
     return response.data
   } catch (error) {
     throw error
   }
 }
+
 export const axiosComments = {
-  getListPost,
-  createrPost,
+  getListComment,
+  createComment,
 }

@@ -8,14 +8,6 @@ export type SigninRequest = {
   firstName: string
 }
 
-// export interface IFUserList {
-//   id: number
-//   displayName: string
-//   avt: string
-//   followers: number
-//   following: number
-// }
-
 export interface IFAuthRps {
   id: string
   username: string
@@ -70,4 +62,9 @@ export interface IFUserView {
   display_name: string
   avatar: Url
   banner: Url
+}
+
+export interface IFPhotoList {
+  id: string
+  url: Url
 }

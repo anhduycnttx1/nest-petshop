@@ -80,7 +80,8 @@ export const postsSlice = createSlice({
       const index = list.findIndex((item) => item.id === action.payload)
       if (index !== -1) {
         const curPost = list[index]
-        list.splice(index, 1, { ...curPost, isUpvote: !curPost.isUpvote })
+        const countLike = curPost.isUpvote ? curPost.countLike - 1 : curPost.countLike + 1
+        list.splice(index, 1, { ...curPost, isUpvote: !curPost.isUpvote, countLike: countLike })
         state.posts = list
       }
     },

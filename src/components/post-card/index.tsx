@@ -7,6 +7,8 @@ import imageDfault from './../../assets/banner.png'
 import { timeAgoHepler } from '../../helpers'
 import { IconHeartFilled } from '@tabler/icons-react'
 import { usePostController } from '../../controllers/post.controller'
+import { useCallback } from 'react'
+import { useAuthController } from './../../controllers/auth.controller'
 
 type MyCardProps = {
   post: IFPostList
@@ -14,10 +16,29 @@ type MyCardProps = {
 function PostCard(props: MyCardProps) {
   const { title, image, id, countLike, isUpvote, countComment, release_date, author } = props.post
   const usePost = usePostController()
+  const useAuth = useAuthController()
   const navigate = useNavigate()
-  const handlerUpvote = () => {
-    usePost.onVotePosts(id)
-  }
+  const handlerUpvote = useCallback(() => {
+    if (useAuth.state.isAuthenticated) {
+      return usePost.onVotePosts(id)
+    } else {
+      return navigate(`/login`)
+    }
+  }, [])
+  const handlerComment = useCallback(() => {
+    if (useAuth.state.isAuthenticated) {
+      return navigate(`/post/public/${id}`)
+    } else {
+      return navigate(`/login`)
+    }
+  }, [])
+  const handlerBookmark = useCallback(() => {
+    if (useAuth.state.isAuthenticated) {
+      // return navigate(`/post/public/${id}`)
+    } else {
+      return navigate(`/login`)
+    }
+  }, [])
   return (
     <Card shadow="md" style={{ minWidth: 300, cursor: 'pointer', backgroundColor: '#f9fafb' }} radius="md" withBorder>
       <Card.Section px="md" py="xs">
@@ -51,20 +72,20 @@ function PostCard(props: MyCardProps) {
       <Card.Section mt="sm" px="xs" onClick={() => navigate(`/post/public/${id}`)}>
         <Image src={image || imageDfault} alt={title} height={180} radius="md" withPlaceholder />
       </Card.Section>
-      <Group grow style={{ marginTop: 10 }} onClick={handlerUpvote}>
-        <ActionIcon color="pink" variant="transparent">
+      <Group grow style={{ marginTop: 10 }}>
+        <ActionIcon color="pink" variant="transparent" onClick={handlerUpvote}>
           {isUpvote ? <IconHeartFilled /> : <IconHeart />}
           <Text weight={700} size="sm" ml={10}>
             {countLike > 0 ? countLike : null}
           </Text>
         </ActionIcon>
-        <ActionIcon color="pink" variant="transparent">
+        <ActionIcon color="pink" variant="transparent" onClick={handlerComment}>
           <IconMessageCircle2 />
           <Text weight={700} size="sm" ml={10}>
             {countComment > 0 ? countComment : null}
           </Text>
         </ActionIcon>
-        <ActionIcon color="pink" variant="transparent">
+        <ActionIcon color="pink" variant="transparent" onClick={handlerBookmark}>
           <IconBookmark />
         </ActionIcon>
       </Group>

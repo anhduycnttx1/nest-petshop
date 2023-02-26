@@ -25,7 +25,12 @@ const UserLayout = () => {
         <Container>
           <HeaderInfo user={useUser.state.user} />
           <Group position="right">
-            {useAuth.state.user?.id && useAuth.state.user?.id === userId ? <SectionAddPost /> : <Space h={40} />}
+            {useAuth.state.user &&
+            (useAuth.state.user?.id === Number(userId) || useAuth.state.user?.username === userId) ? (
+              <SectionAddPost />
+            ) : (
+              <Space h={40} />
+            )}
           </Group>
           <Outlet />
         </Container>

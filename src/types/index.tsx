@@ -9,7 +9,7 @@ export type SigninRequest = {
 }
 
 export interface IFAuthRps {
-  id: string
+  id: number
   username: string
   email: string
   display_name: string
@@ -17,13 +17,13 @@ export interface IFAuthRps {
 }
 
 export interface IFAuthoerInfo {
-  id: string
+  id: number
   display_name: string
   avatar: Url
 }
 
 export interface IFPostList {
-  id: string
+  id: number
   title: string
   image: Url
   countLike: number
@@ -37,7 +37,7 @@ export interface IFTags {
   slug: string
 }
 export interface IFPostView {
-  id: string
+  id: number
   title: string
   content: string
   countLike: number
@@ -50,7 +50,7 @@ export interface IFPostView {
 }
 
 export interface IFCommentList {
-  id: string
+  id: number
   content: string
   image: Url
   release_date: string
@@ -58,7 +58,7 @@ export interface IFCommentList {
 }
 
 export interface IFUserView {
-  id: string
+  id: number
   username: string
   email: string
   display_name: string
@@ -67,6 +67,6 @@ export interface IFUserView {
 }
 
 export interface IFPhotoList {
-  id: string
+  id: number
   url: Url
 }

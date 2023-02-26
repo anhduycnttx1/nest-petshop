@@ -33,7 +33,7 @@ const getPostById = async (id: string) => {
 
 const createrPost = async (data: any) => {
   try {
-    const response = await axiosInstance.post('posts', data)
+    const response = await axiosInstance.post('create/posts', data)
     return response.data
   } catch (error) {
     throw error

@@ -15,10 +15,9 @@ const UserGalleryContainer = () => {
     onPhotosOrderByUser()
   }, [])
 
-  return (
-    <React.Fragment>
-      {useAuth.state.user?.id !== userId && <NotSearchPage isBtn={true} />}
-      {useAuth.state.user?.id === userId && (
+  function renderSection(): React.ReactNode {
+    if (useAuth.state.user?.id === Number(userId) || useAuth.state.user?.username === userId)
+      return (
         <React.Fragment>
           <Group my={10} mx={10}>
             <Title order={3}>My photos</Title>
@@ -31,9 +30,10 @@ const UserGalleryContainer = () => {
             )}
           </Group>
         </React.Fragment>
-      )}
-    </React.Fragment>
-  )
+      )
+    else return <NotSearchPage isBtn={true} />
+  }
+  return <React.Fragment>{renderSection()}</React.Fragment>
 }
 
 export default UserGalleryContainer

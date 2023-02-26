@@ -6,9 +6,11 @@ import {
   createPostByUsser,
   onLoading,
   fetchPostByUser,
+  setVoteList,
 } from '../libs/redux/slice/posts.slice'
 import { axiosImage } from '../libs/api/image.axios'
 import { toast } from 'react-toastify'
+import { axiosPosts } from './../libs/api/post.axios'
 
 export function usePostController() {
   const dispatch = useAppDispatch()
@@ -61,11 +63,19 @@ export function usePostController() {
     }
   }
 
+  async function onVotePosts(postId: any) {
+    await axiosPosts
+      .setUpvotePost(postId)
+      .then((_) => dispatch(setVoteList(postId)))
+      .catch((err) => toast.error(err.message))
+  }
+
   return {
     state,
     onGetPosts,
     onGetPostById,
     onCreatePost,
     onGetPostsByUser,
+    onVotePosts,
   }
 }

@@ -5,13 +5,19 @@ import { useNavigate } from 'react-router-dom'
 import avatarfault from './../../assets/user.png'
 import imageDfault from './../../assets/banner.png'
 import { timeAgoHepler } from '../../helpers'
+import { IconHeartFilled } from '@tabler/icons-react'
+import { usePostController } from '../../controllers/post.controller'
 
 type MyCardProps = {
   post: IFPostList
 }
 function PostCard(props: MyCardProps) {
-  const { title, image, id, countLike, countComment, release_date, author } = props.post
+  const { title, image, id, countLike, isUpvote, countComment, release_date, author } = props.post
+  const usePost = usePostController()
   const navigate = useNavigate()
+  const handlerUpvote = () => {
+    usePost.onVotePosts(id)
+  }
   return (
     <Card shadow="md" style={{ minWidth: 300, cursor: 'pointer', backgroundColor: '#f9fafb' }} radius="md" withBorder>
       <Card.Section px="md" py="xs">
@@ -45,9 +51,9 @@ function PostCard(props: MyCardProps) {
       <Card.Section mt="sm" px="xs" onClick={() => navigate(`/post/public/${id}`)}>
         <Image src={image || imageDfault} alt={title} height={180} radius="md" withPlaceholder />
       </Card.Section>
-      <Group grow style={{ marginTop: 10 }}>
+      <Group grow style={{ marginTop: 10 }} onClick={handlerUpvote}>
         <ActionIcon color="pink" variant="transparent">
-          <IconHeart />
+          {isUpvote ? <IconHeartFilled /> : <IconHeart />}
           <Text weight={700} size="sm" ml={10}>
             {countLike > 0 ? countLike : null}
           </Text>

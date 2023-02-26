@@ -68,6 +68,22 @@ export const postsSlice = createSlice({
     onLoading: (state, action) => {
       state.loading = action.payload
     },
+    setVoteList: (state, action) => {
+      const curPostSelect = state.postSelect
+      if (curPostSelect && curPostSelect.id == action.payload) {
+        console.log('done')
+        state.postSelect = { ...curPostSelect, isUpvote: !curPostSelect.isUpvote }
+      }
+
+      const list = [...state.posts]
+
+      const index = list.findIndex((item) => item.id === action.payload)
+      if (index !== -1) {
+        const curPost = list[index]
+        list.splice(index, 1, { ...curPost, isUpvote: !curPost.isUpvote })
+        state.posts = list
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -129,6 +145,6 @@ export const postsSlice = createSlice({
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectUser = (state: RootStaimport { axiosPosts } from './../../../api/post.axios';
-export const { onLoading } = postsSlice.actions
+export const { onLoading, setVoteList } = postsSlice.actions
 
 export default postsSlice.reducer

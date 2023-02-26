@@ -30,6 +30,7 @@ export interface IFPostList {
   countComment: number
   release_date: string
   author: IFAuthoerInfo
+  isUpvote: boolean
 }
 export interface IFTags {
   name: string
@@ -45,6 +46,7 @@ export interface IFPostView {
   release_date: string
   author: IFAuthoerInfo
   tags: IFTags[]
+  isUpvote: boolean
 }
 
 export interface IFCommentList {

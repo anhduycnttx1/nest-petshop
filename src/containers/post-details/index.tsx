@@ -8,6 +8,7 @@ import React from 'react'
 import CommentList from '../../components/comment-list'
 import { useCommentController } from '../../controllers/comment.controller'
 import { IconBookmark, IconHeart, IconMessageCircle2 } from '@tabler/icons'
+import { IconHeartFilled } from '@tabler/icons-react'
 import CommentForm from '../../components/comment-form'
 import { useAuthController } from './../../controllers/auth.controller'
 
@@ -30,6 +31,7 @@ const PostDetailsContainer = () => {
   }
   const handlerUpvote = () => {
     if (!useAuth.state.isAuthenticated) return navigate(`/login`)
+    return usePost.onVotePosts(postId)
   }
   const handlerBookmark = () => {
     if (!useAuth.state.isAuthenticated) return navigate(`/login`)
@@ -57,7 +59,8 @@ const PostDetailsContainer = () => {
             >
               <ActionIcon color="pink" onClick={handlerUpvote}>
                 <Group>
-                  <IconHeart />
+                  {usePost.state.postSelect.isUpvote ? <IconHeartFilled /> : <IconHeart />}
+
                   <Text weight={700} size="sm">
                     Upvote
                   </Text>

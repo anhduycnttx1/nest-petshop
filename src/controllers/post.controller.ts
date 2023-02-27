@@ -16,17 +16,17 @@ export function usePostController() {
   const dispatch = useAppDispatch()
   const state = useAppSelector((state: RootState) => state.post)
 
-  function onGetPosts() {
+  function onGetPosts(query?: any) {
     try {
-      dispatch(fetchPosts())
+      dispatch(fetchPosts({ query }))
     } catch (err) {
       // @ts-ignore
       toast.error(err.message)
     }
   }
-  function onGetPostsByUser(userId: string) {
+  function onGetPostsByUser(userId: string, query?: any) {
     try {
-      dispatch(fetchPostByUser(userId))
+      dispatch(fetchPostByUser({ userId, query }))
     } catch (err) {
       // @ts-ignore
       toast.error(err.message)
@@ -57,7 +57,6 @@ export function usePostController() {
         dispatch(createPostByUsser(data))
       }
     } catch (err) {
-      console.log(err)
     } finally {
       dispatch(onLoading(false))
     }

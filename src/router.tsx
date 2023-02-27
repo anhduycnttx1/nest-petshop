@@ -7,6 +7,9 @@ import PostDetailsPages from './containers/post-details/index'
 import ProfileUserPages from './pages/user/profile'
 import GalleryUserPages from './pages/user/gallery'
 import UserLayout from './components/layout/user.layout'
+import PopularPages from './pages/post/popular'
+import BestDiscussonsPages from './pages/post/best-discussons'
+import MostUpvotedPages from './pages/post/most-upvoted'
 
 export const router = createBrowserRouter([
   {
@@ -38,15 +41,15 @@ export const router = createBrowserRouter([
       },
       {
         path: '/popular',
-        element: <HomePages />,
+        element: <PopularPages />,
       },
       {
         path: '/best-upvoted',
-        element: <HomePages />,
+        element: <MostUpvotedPages />,
       },
       {
         path: '/best-discussions',
-        element: <HomePages />,
+        element: <BestDiscussonsPages />,
       },
       {
         path: '/search',

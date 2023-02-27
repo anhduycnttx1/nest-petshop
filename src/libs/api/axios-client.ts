@@ -46,13 +46,14 @@ axiosInstance.interceptors.response.use(
 )
 const getNewAccessToken = async (refreshToken: string) => {
   try {
-    const response = await axiosInstance.post('/refresh-token', { refreshToken })
+    const response = await axiosInstance.post('/auth/refresh', { refreshToken })
     const newToken = response.data.data
     Cookies.set('access_token', newToken.access_token)
     Cookies.set('refresh_token', newToken.refresh_token)
     return newToken.access_token
   } catch (error) {
-    console.log('Error while getting new access token', error)
+    Cookies.remove('access_token')
+    Cookies.remove('refresh_token')
   }
 }
 

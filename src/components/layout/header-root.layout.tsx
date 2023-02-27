@@ -68,6 +68,8 @@ type PopoverUserProps = {
 function PopoverUser({ children }: PopoverUserProps) {
   const { state, onLogout } = useAuthController()
   const navigate = useNavigate()
+  const handerLogout = async () => onLogout()
+
   return (
     <Menu trigger="hover" position="bottom" shadow="md" width={200}>
       <Menu.Target>{children}</Menu.Target>
@@ -83,7 +85,7 @@ function PopoverUser({ children }: PopoverUserProps) {
         <Menu.Divider />
         <Menu.Label>Settings zone</Menu.Label>
         <Menu.Item icon={<IconSettings size={14} />}>Settings</Menu.Item>
-        <Menu.Item onClick={() => onLogout()} type="button" color="cyan" icon={<IconLogout size={14} />}>
+        <Menu.Item onClick={handerLogout} type="button" color="cyan" icon={<IconLogout size={14} />}>
           Logout account
         </Menu.Item>
       </Menu.Dropdown>

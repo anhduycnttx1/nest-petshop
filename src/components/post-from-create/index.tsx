@@ -49,7 +49,6 @@ const PostFromCreate = ({ onOpened }: Props) => {
     try {
       onCreatePost(values, file)
     } catch (err) {
-      console.log(err)
     } finally {
       setLoading(false)
       return onOpened(false)

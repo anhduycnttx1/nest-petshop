@@ -18,9 +18,9 @@ const initialState: PostsState = {
 }
 
 // define login thunk
-export const fetchPosts = createAsyncThunk('post/list', async (_, thunkAPI) => {
+export const fetchPosts = createAsyncThunk('post/list', async (data: { query?: any }, thunkAPI) => {
   try {
-    const result = await axiosPosts.getListPost()
+    const result = await axiosPosts.getListPost(data.query)
     return result.data.content
   } catch (error) {
     // @ts-ignore
@@ -39,15 +39,18 @@ export const fetchPostById = createAsyncThunk('post/details', async (postId: str
 })
 
 // define fetchPostByUser
-export const fetchPostByUser = createAsyncThunk('post/user/list', async (userId: string, thunkAPI) => {
-  try {
-    const result = await axiosPosts.getPostByUser(userId)
-    return result.data.content
-  } catch (error) {
-    // @ts-ignore
-    return thunkAPI.rejectWithValue(error)
+export const fetchPostByUser = createAsyncThunk(
+  'post/user/list',
+  async (data: { userId: string; query?: any }, thunkAPI) => {
+    try {
+      const result = await axiosPosts.getPostByUser(data.userId, data.query)
+      return result.data.content
+    } catch (error) {
+      // @ts-ignore
+      return thunkAPI.rejectWithValue(error)
+    }
   }
-})
+)
 
 // define login thunk
 export const createPostByUsser = createAsyncThunk('post/create', async (data: any, thunkAPI) => {
@@ -71,7 +74,6 @@ export const postsSlice = createSlice({
     setVoteList: (state, action) => {
       const curPostSelect = state.postSelect
       if (curPostSelect && curPostSelect.id == action.payload) {
-        console.log('done')
         state.postSelect = { ...curPostSelect, isUpvote: !curPostSelect.isUpvote }
       }
 

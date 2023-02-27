@@ -1,20 +1,21 @@
 import axiosInstance from './axios-client'
-import Cookies from 'js-cookie'
-
+import qs from 'qs'
 //API List Post
-const getListPost = async (query?: string) => {
-  const token = Cookies.get('access_token') || null
+const getListPost = async (query?: any) => {
+  const queryObj = query ? query : {}
+  const queryString = qs.stringify(queryObj)
   try {
-    const response = await axiosInstance.post('/posts', { token })
+    const response = await axiosInstance.get(`/posts?${queryString}`)
     return response.data
   } catch (error) {
     throw error
   }
 }
-const getPostByUser = async (userId: string) => {
-  const token = Cookies.get('access_token') || null
+const getPostByUser = async (userId: string, query?: any) => {
+  const queryObj = query ? query : {}
+  const queryString = qs.stringify(queryObj)
   try {
-    const response = await axiosInstance.post(`/posts/user/${userId}`, { token })
+    const response = await axiosInstance.get(`/posts/user/${userId}?${queryString}`)
     return response.data
   } catch (error) {
     throw error
@@ -22,9 +23,8 @@ const getPostByUser = async (userId: string) => {
 }
 // API Post By Id
 const getPostById = async (id: string) => {
-  const token = Cookies.get('access_token') || null
   try {
-    const response = await axiosInstance.post(`post/${id}`, { token })
+    const response = await axiosInstance.get(`/post/details/${id}`)
     return response.data
   } catch (error) {
     throw error
@@ -33,7 +33,7 @@ const getPostById = async (id: string) => {
 
 const createrPost = async (data: any) => {
   try {
-    const response = await axiosInstance.post('create/posts', data)
+    const response = await axiosInstance.post('/posts', data)
     return response.data
   } catch (error) {
     throw error

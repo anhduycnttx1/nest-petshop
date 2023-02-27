@@ -20,9 +20,7 @@ export function useCommentController() {
   async function onCreatePost(data: { comment: string }, postId: string) {
     try {
       dispatch(createComment({ data, postId }))
-    } catch (err) {
-      console.log(err)
-    }
+    } catch (err) {}
   }
 
   return {

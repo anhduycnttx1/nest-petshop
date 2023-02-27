@@ -9,7 +9,6 @@ type PostListProps = {
 }
 
 const CommentList = (props: PostListProps) => {
-  console.log(props.comments)
   return (
     <Stack spacing="xl" mt={20}>
       {props.comments &&

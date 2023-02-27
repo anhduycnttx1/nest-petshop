@@ -34,18 +34,10 @@ export function useAuthController() {
     }
   }
 
-  async function onLogout() {
-    axiosAuth
-      .logout()
-      .then(() => {
-        dispatch(logout())
-        toast.success('Logout success!')
-      })
-      .catch((err) => {
-        // @ts-ignore
-        toast.error(err.message)
-      })
+  function onLogout() {
+    dispatch(logout())
   }
+
   return {
     state,
     onSignup,

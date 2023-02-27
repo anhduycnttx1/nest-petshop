@@ -2,8 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { IFAuthRps, SigninRequest } from '../../../types'
 import Cookies from 'js-cookie'
 import { axiosAuth } from '../../api'
-import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
 import { toast } from 'react-toastify'
 
 // Define a type for the slice state
@@ -56,17 +54,30 @@ export const authenticate = createAsyncThunk('auth/authenticate', async (_, thun
   }
 })
 
+// define authentication thunk
+export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+  const refreshToken = Cookies.get('refresh_token') || ''
+  if (!refreshToken) throw thunkAPI.rejectWithValue(null)
+  try {
+    const response = await axiosAuth.logout()
+    return response.data
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error.message)
+  }
+})
+
 // define slice
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    logout: (state) => {
-      Cookies.remove('access_token')
-      Cookies.remove('refresh_token')
-      state.isAuthenticated = false
-      state.user = null
-    },
+    // logout: (state) => {
+    //   Cookies.remove('access_token')
+    //   Cookies.remove('refresh_token')
+    //   state.isAuthenticated = false
+    //   state.user = null
+    // },
   },
   extraReducers: (builder) => {
     builder
@@ -120,9 +131,26 @@ const authSlice = createSlice({
         // @ts-ignore
         state.error = action.payload
       })
+      // thunk async logout
+      .addCase(logout.pending, (state) => {
+        state.loading = true
+        state.error = null
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.loading = false
+        Cookies.remove('access_token')
+        Cookies.remove('refresh_token')
+        state.isAuthenticated = false
+        state.user = null
+      })
+      .addCase(logout.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload
+      })
   },
 })
 
 // export actions and reducer
-export const { logout } = authSlice.actions
+export const {} = authSlice.actions
 export default authSlice.reducer

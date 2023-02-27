@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import App from './app'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  <main>
     <ToastContainer
       style={{ fontSize: 13 }}
       position="top-right"
@@ -30,5 +30,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <RouterProvider router={router} />
       </App>
     </Provider>
-  </React.StrictMode>
+  </main>
 )

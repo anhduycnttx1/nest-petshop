@@ -26,7 +26,7 @@ export const fetchCommentOrderbyPost = createAsyncThunk('comment/list', async (p
 })
 
 //define login thunk
-export const createComment = createAsyncThunk('post/create', async (body: { data: any; postId: string }, thunkAPI) => {
+export const createComment = createAsyncThunk('post/create', async (body: { data: any; postId: number }, thunkAPI) => {
   try {
     const result = await axiosComments.createComment(body.data, body.postId)
     return result.data

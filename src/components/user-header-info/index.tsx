@@ -1,13 +1,29 @@
-import { Text, Image, createStyles, ActionIcon } from '@mantine/core'
+import {
+  Text,
+  Image,
+  createStyles,
+  ActionIcon,
+  Modal,
+  Stack,
+  Group,
+  Title,
+  Flex,
+  Loader,
+  Button,
+  FileButton,
+} from '@mantine/core'
 import defaultAvt from './../../assets/user.png'
+import defaultBanner from './../../assets/banner.png'
 import { IFUserView } from '../../types'
 import { IconCamera } from '@tabler/icons'
 import { useAuthController } from '../../controllers/auth.controller'
-const useStyles = createStyles((theme) => ({
+import { useCallback, useEffect, useState } from 'react'
+import { useUserController } from '../../controllers/user.controller'
+import PhotoList from '../photo-list'
+const useStyles = createStyles((theme, { url }: { url: string }) => ({
   hero: {
     position: 'relative',
-    backgroundImage:
-      'url(https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80)',
+    backgroundImage: `url(${url})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     minHeight: 400,
@@ -35,7 +51,7 @@ const useStyles = createStyles((theme) => ({
     bottom: -88,
     left: 200,
   },
-  chageImage: {
+  chageAvatar: {
     boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
     cursor: 'pointer',
     zIndex: 2,
@@ -59,19 +75,43 @@ type Props = {
   user: IFUserView | null
 }
 export default function HeaderInfo({ user }: Props) {
-  const { classes } = useStyles()
+  const [opened, setOpened] = useState(false)
   const useAuth = useAuthController()
   const avatar = user?.avatar ? user?.avatar : defaultAvt
+  const banner = user?.banner ? user?.banner : defaultBanner
   const isShowChageImage = useAuth.state.user?.id && useAuth.state.user?.id === user?.id
+  const { classes } = useStyles({ url: banner })
+
+  const handleAvatar = useCallback(() => {
+    setOpened(true)
+  }, [])
   return (
     <div className={classes.hero}>
+      <Modal
+        withCloseButton={false}
+        opened={opened}
+        radius="lg"
+        onClose={() => {
+          setOpened(false)
+        }}
+        size="auto"
+      >
+        <ScreenUploadImage />
+      </Modal>
       {isShowChageImage && (
         <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageBanne}>
           <IconCamera />
         </ActionIcon>
       )}
       {isShowChageImage && (
-        <ActionIcon size="lg" radius={50} variant="light" color="violet" className={classes.chageImage}>
+        <ActionIcon
+          size="lg"
+          radius={50}
+          variant="light"
+          color="violet"
+          className={classes.chageAvatar}
+          onClick={handleAvatar}
+        >
           <IconCamera />
         </ActionIcon>
       )}
@@ -87,5 +127,60 @@ export default function HeaderInfo({ user }: Props) {
         </Text>
       </div>
     </div>
+  )
+}
+const useStylesImage = createStyles((theme) => ({
+  btnUpload: {
+    padding: '10px 20px',
+    borderWidth: 2,
+    borderColor: '#d1d5db',
+    borderStyle: 'dashed',
+    borderRadius: theme.spacing.lg,
+  },
+}))
+
+function ScreenUploadImage() {
+  const [imageId, setImageId] = useState(null)
+  const { onPhotosOrderByUser, state } = useUserController()
+  const { classes } = useStylesImage()
+  useEffect(() => {
+    onPhotosOrderByUser()
+  }, [])
+  const [file, setFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string>('')
+
+  const handlerUpfile = useCallback((files: any) => {
+    const selectedFile = files[0]
+    setFile(selectedFile)
+    setPreviewUrl(URL.createObjectURL(selectedFile))
+  }, [])
+
+  return (
+    <Stack miw={400} px={18} py={10}>
+      <Stack>
+        <Title order={4}>Update profile picture</Title>
+        <div className={classes.btnUpload}>
+          <FileButton onChange={handlerUpfile} accept="image/png,image/jpeg" multiple>
+            {(props) => (
+              <ActionIcon color="cyan" variant="transparent" {...props} size="lg" w={400}>
+                <Text weight={600}>Upload image</Text>
+              </ActionIcon>
+            )}
+          </FileButton>
+        </div>
+      </Stack>
+      <Stack>
+        <Title order={5}>Your photo</Title>
+        <Flex>
+          {!state.loadingPhoto ? (
+            state.photos && (
+              <PhotoList mxwi="100px" hi="100px" onGetImageId={(photo) => console.log(photo)} images={state.photos} />
+            )
+          ) : (
+            <Loader color="cyan" size="sm" />
+          )}
+        </Flex>
+      </Stack>
+    </Stack>
   )
 }

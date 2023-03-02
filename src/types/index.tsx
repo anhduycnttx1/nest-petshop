@@ -68,5 +68,5 @@ export interface IFUserView {
 
 export interface IFPhotoList {
   id: number
-  url: Url
+  url: string
 }

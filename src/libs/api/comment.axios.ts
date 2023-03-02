@@ -10,7 +10,7 @@ const getListComment = async (postId: string) => {
   }
 }
 
-const createComment = async (data: any, postId: string) => {
+const createComment = async (data: any, postId: number) => {
   try {
     const response = await axiosInstance.post(`/comments/${postId}`, data)
     return response.data

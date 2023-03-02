@@ -17,7 +17,7 @@ export function useCommentController() {
     }
   }
 
-  async function onCreatePost(data: { comment: string }, postId: string) {
+  async function onCreatePost(data: { comment: string }, postId: number) {
     try {
       dispatch(createComment({ data, postId }))
     } catch (err) {}

@@ -4,13 +4,16 @@ import React from 'react'
 
 type PostListProps = {
   images: IFPhotoList[] | null
+  hi?: string
+  mxwi?: string
+  onGetImageId?: (data: { id: number; url: string }) => void
 }
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles((theme, { h, mx }: { h: string; mx: string }) => ({
   photo: {
     maxWidth: '100%',
     verticalAlign: 'top',
-    height: '210px',
+    height: h,
     boxSizing: 'border-box',
     objectPosition: 'center',
     objectFit: 'cover',
@@ -28,8 +31,7 @@ const useStyles = createStyles((theme) => ({
     float: 'left',
     overflow: 'hidden',
     margin: '10px 1%',
-    minWidth: '220px',
-    maxWidth: '290px',
+    maxWidth: mx,
     width: '100%',
     background: '#000000',
     boxShadow: '0 0 5px rgba(0, 0, 0, 0.15)',
@@ -37,15 +39,21 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 const PhotoList = (props: PostListProps) => {
-  const { classes } = useStyles()
+  const heightImage = props.hi || '210px'
+  const mxwidthImage = props.mxwi || '290px'
+  const { classes } = useStyles({ h: heightImage, mx: mxwidthImage })
   return (
     <Group position="center">
       <Flex wrap="wrap">
         {props.images &&
           props.images[0] &&
           props.images.map((image: IFPhotoList) => (
-            <div key={image.id} className={classes.item}>
-              {image.url && <img className={classes.photo} src={image.url} alt={image.id} />}
+            <div
+              key={image.id}
+              className={classes.item}
+              onClick={() => props.onGetImageId && props.onGetImageId(image)}
+            >
+              {image.url && <img className={classes.photo} src={image.url} alt={`photo_${image.id}`} />}
             </div>
           ))}
       </Flex>

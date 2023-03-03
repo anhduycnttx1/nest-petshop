@@ -30,7 +30,16 @@ const getPostById = async (id: string) => {
     throw error
   }
 }
-
+const getFeedPosts = async (query?: any) => {
+  const queryObj = query ? query : {}
+  const queryString = qs.stringify(queryObj)
+  try {
+    const response = await axiosInstance.get(`/posts/feed?${queryString}`)
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
 const createrPost = async (data: any) => {
   try {
     const response = await axiosInstance.post('/posts', data)
@@ -50,6 +59,7 @@ const setUpvotePost = async (postId: any) => {
 }
 
 export const axiosPosts = {
+  getFeedPosts,
   getListPost,
   getPostById,
   createrPost,

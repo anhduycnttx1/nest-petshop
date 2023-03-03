@@ -5,18 +5,25 @@ import SectionAddPost from '../../components/add-post-section'
 import { usePostController } from '../../controllers/post.controller'
 import { useEffect } from 'react'
 import LoaderPage from '../../components/loader/Loader'
+import { useAuthController } from './../../controllers/auth.controller'
 
 type Props = {
   title: string
   query?: any
+  type?: string
 }
 
 const PostsContainer = (props: Props) => {
-  const { state, onGetPosts } = usePostController()
+  const useAuth = useAuthController()
+  const { state, onGetPosts, onGetFeedPosts } = usePostController()
   const { loading, posts } = state
 
   useEffect(() => {
-    onGetPosts(props.query)
+    if (useAuth.state.isAuthenticated && useAuth.state.user && props.type === 'feed') {
+      onGetFeedPosts(props.query)
+    } else {
+      onGetPosts(props.query)
+    }
   }, [])
 
   return (

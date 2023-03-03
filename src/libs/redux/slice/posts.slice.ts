@@ -17,10 +17,20 @@ const initialState: PostsState = {
   postSelect: null,
 }
 
-// define login thunk
+// define list posts
 export const fetchPosts = createAsyncThunk('post/list', async (data: { query?: any }, thunkAPI) => {
   try {
     const result = await axiosPosts.getListPost(data.query)
+    return result.data.content
+  } catch (error) {
+    // @ts-ignore
+    return thunkAPI.rejectWithValue(error)
+  }
+})
+// define feed posts
+export const fetchFeedPosts = createAsyncThunk('post/feed', async (data: { query?: any }, thunkAPI) => {
+  try {
+    const result = await axiosPosts.getFeedPosts(data.query)
     return result.data.content
   } catch (error) {
     // @ts-ignore
@@ -139,6 +149,19 @@ export const postsSlice = createSlice({
         state.posts = action.payload
       })
       .addCase(fetchPostByUser.rejected, (state, action) => {
+        state.loading = false
+        // @ts-ignore
+        state.error = action.payload.message
+      })
+      //get post by feed
+      .addCase(fetchFeedPosts.pending, (state) => {
+        state.loading = true
+      })
+      .addCase(fetchFeedPosts.fulfilled, (state, action) => {
+        state.loading = false
+        state.posts = action.payload
+      })
+      .addCase(fetchFeedPosts.rejected, (state, action) => {
         state.loading = false
         // @ts-ignore
         state.error = action.payload.message

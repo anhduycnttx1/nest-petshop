@@ -5,6 +5,7 @@ import {
   fetchPosts,
   createPostByUsser,
   onLoading,
+  fetchFeedPosts,
   fetchPostByUser,
   setVoteList,
 } from '../libs/redux/slice/posts.slice'
@@ -36,6 +37,14 @@ export function usePostController() {
   function onGetPostById(id: string) {
     try {
       dispatch(fetchPostById(id))
+    } catch (err) {
+      // @ts-ignore
+      toast.error(err.message)
+    }
+  }
+  function onGetFeedPosts(query?: any) {
+    try {
+      dispatch(fetchFeedPosts({ query }))
     } catch (err) {
       // @ts-ignore
       toast.error(err.message)
@@ -76,5 +85,6 @@ export function usePostController() {
     onCreatePost,
     onGetPostsByUser,
     onVotePosts,
+    onGetFeedPosts,
   }
 }

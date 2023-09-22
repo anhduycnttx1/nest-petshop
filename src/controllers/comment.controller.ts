@@ -2,7 +2,6 @@ import { fetchCommentOrderbyPost, createComment } from '../libs/redux/slice/comm
 import { useAppSelector, useAppDispatch } from '../libs/redux/hooks'
 import type { RootState } from '../libs/redux/store'
 import { toast } from 'react-toastify'
-// import { axiosImage } from '../libs/api/image.axios'
 
 export function useCommentController() {
   const dispatch = useAppDispatch()
@@ -20,7 +19,7 @@ export function useCommentController() {
   async function onCreatePost(data: { comment: string }, postId: number) {
     try {
       dispatch(createComment({ data, postId }))
-    } catch (err) {}
+    } catch (err) { }
   }
 
   return {

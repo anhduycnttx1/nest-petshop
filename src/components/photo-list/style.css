@@ -1,0 +1,18 @@
+.photo-list {
+     columns: 3;
+     gap: 30px;
+}
+
+@media (max-width: 1200px) {
+     .photo-list {
+          columns: 2;
+     }
+
+}
+
+@media (max-width: 700px) {
+     .photo-list {
+          columns: 1;
+     }
+
+}

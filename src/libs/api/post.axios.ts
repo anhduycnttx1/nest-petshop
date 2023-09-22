@@ -40,7 +40,7 @@ const getFeedPosts = async (query?: any) => {
     throw error
   }
 }
-const createrPost = async (data: any) => {
+const createPost = async (data: any) => {
   try {
     const response = await axiosInstance.post('/posts', data)
     return response.data
@@ -62,7 +62,7 @@ export const axiosPosts = {
   getFeedPosts,
   getListPost,
   getPostById,
-  createrPost,
+  createPost,
   getPostByUser,
   setUpvotePost,
 }

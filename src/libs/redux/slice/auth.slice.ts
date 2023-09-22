@@ -152,5 +152,5 @@ const authSlice = createSlice({
 })
 
 // export actions and reducer
-export const {} = authSlice.actions
+export const { } = authSlice.actions
 export default authSlice.reducer

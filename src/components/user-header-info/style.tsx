@@ -1,0 +1,50 @@
+import { createStyles } from '@mantine/core'
+
+export const useStyles = createStyles((theme, { url }: { url: string }) => ({
+  hero: {
+    position: 'relative',
+    backgroundImage: `url(${url})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    minHeight: 400,
+    borderRadius: theme.spacing.sm,
+    marginBottom: 110,
+  },
+  avatar: {
+    position: 'absolute',
+    bottom: -96,
+    left: 20,
+    borderRadius: 100,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    borderWidth: 4,
+    borderStyle: 'solid',
+    borderColor: '#fff',
+    background: '#fff',
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+  },
+  info: {
+    position: 'absolute',
+    bottom: -88,
+    left: 200,
+  },
+  chageAvatar: {
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+    zIndex: 2,
+    position: 'absolute',
+    bottom: -96,
+    left: 120,
+    opacity: 0.8,
+  },
+  chageBanne: {
+    boxShadow: '0 8px 15px -3px rgba(99,102,241,.5), 0 2px 4px -4px rgba(99,102,241,.5)',
+    cursor: 'pointer',
+    zIndex: 2,
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    opacity: 0.8,
+  },
+}))

@@ -63,9 +63,9 @@ export const fetchPostByUser = createAsyncThunk(
 )
 
 // define login thunk
-export const createPostByUsser = createAsyncThunk('post/create', async (data: any, thunkAPI) => {
+export const createPostByUser = createAsyncThunk('post/create', async (data: any, thunkAPI) => {
   try {
-    const result = await axiosPosts.createrPost(data)
+    const result = await axiosPosts.createPost(data)
     return result.data
   } catch (error) {
     // @ts-ignore
@@ -127,15 +127,15 @@ export const postsSlice = createSlice({
         state.error = action.payload.message
       })
       //create post
-      .addCase(createPostByUsser.pending, (state) => {
+      .addCase(createPostByUser.pending, (state) => {
         state.loading = true
       })
-      .addCase(createPostByUsser.fulfilled, (state, action) => {
+      .addCase(createPostByUser.fulfilled, (state, action) => {
         state.loading = false
         toast.success('Create a post success!')
         state.posts.splice(0, 0, action.payload)
       })
-      .addCase(createPostByUsser.rejected, (state, action) => {
+      .addCase(createPostByUser.rejected, (state, action) => {
         state.loading = false
         // @ts-ignore
         state.error = action.payload.message

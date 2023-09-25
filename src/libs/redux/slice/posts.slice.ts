@@ -106,7 +106,8 @@ export const postsSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false
-        state.posts = action.payload
+        const curPosts = [...state.posts]
+        state.posts = curPosts.concat(action.payload)
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false

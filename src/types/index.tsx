@@ -70,3 +70,17 @@ export interface IFPhotoList {
   id: number
   url: string
 }
+
+export interface PostIF {
+  code: number
+  message: string
+  data: Data
+}
+
+export interface Data {
+  page_index: number
+  item_count: number
+  page_total: number
+  item_total: number
+  content: IFPostList[]
+}

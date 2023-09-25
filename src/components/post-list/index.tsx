@@ -1,4 +1,4 @@
-import { Center, Grid } from '@mantine/core'
+import { Grid } from '@mantine/core'
 import { IFPostList } from '../../types'
 import PostCard from '../post-card'
 

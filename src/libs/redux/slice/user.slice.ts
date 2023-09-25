@@ -27,7 +27,6 @@ export const fetchUserById = createAsyncThunk('user/view', async (userId: string
   }
 })
 
-// define fetchPhotosOrderByUser
 export const fetchPhotos = createAsyncThunk('user/photos', async (_, thunkAPI) => {
   try {
     const result = await axiosUsers.getPhotoOrderByUser()
@@ -58,7 +57,7 @@ export const userSlice = createSlice({
         // @ts-ignore
         state.error = action.payload.message
       })
-      // thunk async list photo
+      //thunk async list photo
       .addCase(fetchPhotos.pending, (state) => {
         state.loadingPhoto = true
       })
@@ -75,6 +74,6 @@ export const userSlice = createSlice({
 })
 
 // Other code such as selectors can use the imported `RootState` type
-export const {} = userSlice.actions
+export const { } = userSlice.actions
 
 export default userSlice.reducer

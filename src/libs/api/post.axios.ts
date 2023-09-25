@@ -11,7 +11,12 @@ const getListPost = async (query?: any) => {
     throw error
   }
 }
-const getPostByUser = async (userId: string, query?: any) => {
+
+export type fetchPostDto = {
+  page_index: number,
+  item_count: number,
+}
+const getPostByUser = async (userId: string, query?: any,) => {
   const queryObj = query ? query : {}
   const queryString = qs.stringify(queryObj)
   try {
@@ -22,9 +27,9 @@ const getPostByUser = async (userId: string, query?: any) => {
   }
 }
 // API Post By Id
-const getPostById = async (id: string) => {
+const getPostById = async (id: string, params?: fetchPostDto) => {
   try {
-    const response = await axiosInstance.get(`/post/details/${id}`)
+    const response = await axiosInstance.get(`/post/details/${id}`, { params: params })
     return response.data
   } catch (error) {
     throw error

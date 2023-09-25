@@ -27,6 +27,7 @@ const useStyles = createStyles((theme) => ({
 }))
 const PhotoList = (props: PostListProps) => {
   const { classes } = useStyles()
+
   return (
     <div className="photo-list">
       {props.images &&
@@ -39,5 +40,4 @@ const PhotoList = (props: PostListProps) => {
     </div>
   )
 }
-
 export default PhotoList

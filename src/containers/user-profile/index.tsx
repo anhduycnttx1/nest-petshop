@@ -1,4 +1,4 @@
-import { Group, Loader, Space } from '@mantine/core'
+import { Button, Group, Loader, Space, Stack } from '@mantine/core'
 import PostList from '../../components/post-list'
 import { usePostController } from '../../controllers/post.controller'
 import { useParams } from 'react-router-dom'
@@ -17,13 +17,15 @@ const UserProfileContainer = () => {
 
   return (
     <React.Fragment>
-      <Group position="center">
-        {usePost.state.loading && <Loader color="cyan" size="sm" />}
-        {!usePost.state.loading && usePost.state.posts && <PostList posts={usePost.state.posts} />}
-        {!usePost.state.loading && !usePost.state.posts[0] && (
-          <NotSearchPage title="Can't see any posts" isBtn={false} />
-        )}
-      </Group>
+      <Stack>
+        <Group position="center">
+          {usePost.state.loading && <Loader color="cyan" size="sm" />}
+          {!usePost.state.loading && usePost.state.posts && <PostList posts={usePost.state.posts} />}
+          {!usePost.state.loading && !usePost.state.posts[0] && (
+            <NotSearchPage title="Can't see any posts" isBtn={false} />
+          )}
+        </Group>
+      </Stack>
     </React.Fragment>
   )
 }

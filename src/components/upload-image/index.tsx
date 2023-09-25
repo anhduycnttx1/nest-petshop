@@ -36,6 +36,7 @@ const ScreenUploadImage = ({ isCoverImageClicked, onClose }: any) => {
   const [loadingUpload, setLoadingUpload] = useState<boolean>(false)
   const [previewUrl, setPreviewUrl] = useState<string>('')
   const dispatch = useAppDispatch()
+  
 
   useEffect(() => {
     onPhotosOrderByUser()

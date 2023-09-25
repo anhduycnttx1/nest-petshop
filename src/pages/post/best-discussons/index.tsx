@@ -1,6 +1,6 @@
 import PostsContainer from './../../../containers/posts'
 
-const BestDiscussonsPages = () => {
+const BestDiscussionsPages = () => {
   const title = 'Popular'
   const query = {
     order: 'comment',
@@ -9,4 +9,4 @@ const BestDiscussonsPages = () => {
   return <PostsContainer title={title} query={query} />
 }
 
-export default BestDiscussonsPages
+export default BestDiscussionsPages

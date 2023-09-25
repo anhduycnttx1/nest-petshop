@@ -21,7 +21,7 @@ const PostView = (props: PostViewProps) => {
 
   return (
     <Stack style={{ minWidth: 310, cursor: 'pointer' }}>
-      <Card.Section pt={18} pb={16} px={32} onClick={() => navigate(`/user/profile/${author.id}`)}>
+      <Card.Section pt={18} pb={16} px={32} onClick={() => navigate(`/user/${author.id}`)}>
         <Group align="center">
           <Avatar
             sx={{ boxShadow: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)' }}

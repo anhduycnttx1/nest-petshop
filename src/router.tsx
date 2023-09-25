@@ -10,6 +10,7 @@ import UserLayout from './components/layout/user.layout'
 import PopularPages from './pages/post/popular'
 import BestDiscussionsPages from './pages/post/best-discussons'
 import MostUpvotedPages from './pages/post/most-upvoted'
+import SearchPages from './pages/post/search'
 
 export const router = createBrowserRouter([
   {
@@ -53,7 +54,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/search',
-        element: <HomePages />,
+        element: <SearchPages />,
       },
     ],
   },

@@ -78,6 +78,9 @@ export const postsSlice = createSlice({
 
   initialState,
   reducers: {
+    reloadPosts: (state) => {
+      state.posts = []
+    },
     onLoading: (state, action) => {
       state.loading = action.payload
     },
@@ -160,7 +163,8 @@ export const postsSlice = createSlice({
       })
       .addCase(fetchFeedPosts.fulfilled, (state, action) => {
         state.loading = false
-        state.posts = action.payload
+        const curPosts = [...state.posts]
+        state.posts = curPosts.concat(action.payload)
       })
       .addCase(fetchFeedPosts.rejected, (state, action) => {
         state.loading = false
@@ -172,6 +176,6 @@ export const postsSlice = createSlice({
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectUser = (state: RootStaimport { axiosPosts } from './../../../api/post.axios';
-export const { onLoading, setVoteList } = postsSlice.actions
+export const { onLoading, setVoteList, reloadPosts } = postsSlice.actions
 
 export default postsSlice.reducer
